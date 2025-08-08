@@ -1,0 +1,5 @@
+{"email": "alice.johnson@example.com", "clerkId": "clerk_001", "name": "Alice Johnson", "stripeCustomerId": "cus_001", "currentSubscriptionId": "sub_001"}
+{"email": "michael.adeyemi@example.com", "clerkId": "clerk_002", "name": "Michael Adeyemi", "stripeCustomerId": "cus_002", "currentSubscriptionId": "sub_002"}
+{"email": "sara.kim@example.com", "clerkId": "clerk_003", "name": "Sara Kim", "stripeCustomerId": "cus_003"}
+{"email": "david.martinez@example.com", "clerkId": "clerk_004", "name": "David Martinez", "stripeCustomerId": "cus_004", "currentSubscriptionId": "sub_004"}
+{"email": "chloe.mensah@example.com", "clerkId": "clerk_005", "name": "Chloe Mensah", "stripeCustomerId": "cus_005"}
