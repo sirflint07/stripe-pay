@@ -34,7 +34,7 @@ const Navbar = () => {
         </div>
 
         <div className="flex gap-8 items-center justify-center">
-          <Link href="" className="flex items-center space-x-2">
+          <Link href="/pro" className="flex items-center space-x-2">
             <span className="inline-block">
               <Zap size={19} />
             </span>
@@ -42,7 +42,7 @@ const Navbar = () => {
               Pro
             </span>
           </Link>
-          <Link href="" className="flex items-center space-x-2">
+          <Link href="/billing" className="flex items-center space-x-2">
             <span className="inline-block">
               <CreditCardIcon size={19} />
             </span>
@@ -50,7 +50,7 @@ const Navbar = () => {
               Billing
             </span>
           </Link>
-          <Link href="" className="flex items-center space-x-2">
+          <Link href="/courses" className="flex items-center space-x-2">
             <BookOpenIcon size={19} />
             <span className="inline-block text-base font-light leading-9">
               Courses

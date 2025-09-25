@@ -7,8 +7,8 @@ export default defineSchema({
         clerkId: v.string(),
         name: v.string(),
         stripeCustomerId: v.string(),
-        currentSubscriptionId: v.optional(v.id("subcriptions"))
-    }).index("by_clerkId", ["clerkId"]),
+        currentSubscriptionId: v.optional(v.id("subscriptions"))
+    }).index("by_clerkId", ["clerkId"]).index("by_stripeCustomerId", ["stripeCustomerId"]),
 
     courses: defineTable({
         title: v.string(),
@@ -22,7 +22,7 @@ export default defineSchema({
         courseId: v.id('courses'),
         amount: v.number(),
         stripePurchaseId: v.string(),
-        purchaseDate: v.number()
+        purchaseDate: v.any()
     }).index("by_userId_and_courseId", ["courseId" , "userId"]),
 
     subscriptions: defineTable({
