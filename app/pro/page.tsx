@@ -1,39 +1,67 @@
+"use client"
+
 import { api } from '@/convex/_generated/api'
 import { useUser } from '@clerk/nextjs'
 import { useQuery } from 'convex/react'
-import { useState } from "react";
+import { CheckIcon } from 'lucide-react';
+import { useState, useEffect } from "react";
 import { FaCheck, FaStar } from "react-icons/fa";
 
-/**
- * ProPlanPage
- * Props (optional):
- * - currentPlan: string ("starter" | "pro" | "enterprise") -> will be shown as current subscription
- * - initialBilling: "monthly" | "yearly"
- *
- * Example: <ProPlanPage currentPlan="pro" initialBilling="monthly" />
- */
-export default function ProPlanPage({ currentPlan = "starter", initialBilling = "monthly" }) {
-  const [billing, setBilling] = useState(initialBilling); // "monthly" | "yearly"
-  const [selectedPlan, setSelectedPlan] = useState(null); // allow selecting a plan before confirming
+export default function ProPlanPage({ currentPlan = "", initialBilling = "" }) {
 
-  const {user, isLoaded} = useUser()
-  const userData = useQuery(api.users.getUserByClerkId, user ? {clerkId: user?.id} : "skip")
-  const userSubcription = useQuery(api.subscriptions.getUserSubscription, userData? {userId: userData._id} : "skip")
+  interface Plan {
+    id: string;
+    title: string;
+    tagline: string;
+    monthly: number;
+    yearly: number;
+    featured?: boolean;
+    features: string[];
+  }
 
-  const isYearlySubscriptionActive = userSubcription?.status === 'active' && userSubcription.planType === 'year'
+  const [billing, setBilling] = useState(initialBilling);
+  const [selectedPlan, setSelectedPlan] = useState("");
+
+  const { user, isLoaded } = useUser()
+  const userData = useQuery(api.users.getUserByClerkId, 
+    user && user.id ? { clerkId: user.id } : "skip"
+  )
+  
+  // Fix: Corrected variable name and added proper conditional
+  const userSubscription = useQuery(api.subscriptions.getUserSubscription, 
+    userData && userData._id ? { userId: userData._id } : "skip"
+  )
+
+  // Debug logging with proper checks
+  useEffect(() => {
+    console.log('=== DEBUG INFO ===');
+    console.log('Clerk user loaded:', isLoaded);
+    console.log('Clerk user:', user);
+    console.log('User data from Convex:', userData);
+    console.log('User subscription data:', userSubscription);
+    console.log('Subscription planType:', userSubscription?.planType);
+    console.log('Subscription status:', userSubscription?.status);
+  }, [user, userData, userSubscription, isLoaded]);
+
+  const isYearlySubscriptionActive = userSubscription?.status === 'active' && userSubscription.planType === 'year'
+
+  const handlePlanSelection = (planId: string) => {
+    console.log("Selected plan:", planId);
+    setSelectedPlan(planId);
+  }
 
   const plans = [
     {
-      id: "starter",
-      title: "Starter",
+      id: "month",
+      title: "Monthly",
       tagline: "Good for individuals",
       monthly: 9,
-      yearly: 90, // 2 months free (example)
+      yearly: 90,
       features: ["1 project", "Basic analytics", "Community support"],
     },
     {
-      id: "pro",
-      title: "Pro",
+      id: "year",
+      title: "Yearly",
       tagline: "Most popular",
       monthly: 29,
       yearly: 290,
@@ -50,15 +78,36 @@ export default function ProPlanPage({ currentPlan = "starter", initialBilling = 
     },
   ];
 
-  const formatPrice = (plan) => {
+  const formatPrice = (plan: Plan) => {
     return billing === "monthly" ? `$${plan.monthly}` : `$${plan.yearly}`;
   };
 
   const billingLabel = billing === "monthly" ? "per month" : "per year (billed annually)";
 
+  // Show loading state while data is being fetched
+  if (!isLoaded) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+          <p className="mt-4 text-slate-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
+        
+        {/* Active subscription banner - only show if user has an active subscription */}
+        {userSubscription?.status === 'active' && (
+          <div className='bg-blue-100 text-blue-600 rounded-md px-4 py-2 flex items-center border border-l-4 border-blue-600 mb-2'>
+            <CheckIcon className='mr-2' size={20}/>
+            You have an active {userSubscription?.planType} subscription plan.
+          </div>
+        )}
+
         {/* Header */}
         <header className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
           <div>
@@ -69,15 +118,19 @@ export default function ProPlanPage({ currentPlan = "starter", initialBilling = 
           </div>
 
           <div className="flex items-center gap-4">
-            {/* Current subscription badge */}
-            <div className="text-sm text-slate-700">
-              <span className="block text-xs text-slate-500">Current subscription</span>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white shadow-sm border">
-                <span className="uppercase text-xs tracking-wider font-medium">{currentPlan}</span>
-                <span className="text-xs text-slate-500">•</span>
-                <span className="text-xs text-slate-600">{initialBilling}</span>
+            {/* Current subscription badge - only show if user has a subscription */}
+            {userSubscription && (
+              <div className="text-sm text-slate-700">
+                <span className="block text-xs text-slate-500">Current subscription</span>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white shadow-sm border">
+                  <span className="uppercase text-xs tracking-wider font-medium">
+                    {userSubscription.planType || 'None'}
+                  </span>
+                  <span className="text-xs text-slate-500">•</span>
+                  <span className="text-xs text-slate-600">{userSubscription.status || 'Inactive'}</span>
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Billing toggle */}
             <div className="flex flex-col items-center text-sm">
@@ -110,7 +163,7 @@ export default function ProPlanPage({ currentPlan = "starter", initialBilling = 
         <main>
           <div className="grid gap-6 grid-cols-1 md:grid-cols-3">
             {plans.map((plan) => {
-              const isCurrent = currentPlan === plan.id;
+              const isCurrent = userSubscription?.planType === plan.id && userSubscription?.status === 'active';
               const isSelected = selectedPlan === plan.id;
 
               return (
@@ -169,29 +222,34 @@ export default function ProPlanPage({ currentPlan = "starter", initialBilling = 
                   <div className="mt-6">
                     <div className="flex items-center justify-between gap-3">
                       <button
-                        onClick={() => setSelectedPlan(plan.id)}
+                        onClick={() => handlePlanSelection(plan.id)}
+                        disabled={isCurrent}
                         className={`flex-1 text-sm font-semibold px-4 py-2 rounded-lg transition ${
                           isSelected
                             ? "bg-indigo-700 text-white shadow-md"
+                            : isCurrent
+                            ? "bg-gray-100 text-gray-500 cursor-not-allowed"
                             : "bg-indigo-50 text-indigo-700 hover:bg-indigo-100"
                         }`}
                         aria-pressed={isSelected}
                       >
-                        {isSelected ? "Selected" : "Select plan"}
+                        {isCurrent ? "Current Plan" : isSelected ? "Selected" : "Select plan"}
                       </button>
 
-                      <a
-                        href="#"
+                      <button
                         onClick={(e) => {
                           e.preventDefault();
-                          // In a real app you'd proceed to checkout/upgrade flow
+                          if (isCurrent) {
+                            alert(`You're already on the ${plan.title} plan`);
+                            return;
+                          }
                           alert(`Proceeding to checkout for the ${plan.title} plan (${billing})`);
                         }}
-                        className="inline-flex items-center gap-2 px-4 py-2 border rounded-lg text-sm text-slate-700 hover:bg-slate-50"
-                        role="button"
+                        className="inline-flex items-center gap-2 px-4 py-2 border rounded-lg text-sm text-slate-700 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled={isCurrent}
                       >
-                        Upgrade
-                      </a>
+                        {isCurrent ? "Current" : "Upgrade"}
+                      </button>
                     </div>
 
                     {/* small helper */}
@@ -216,8 +274,7 @@ export default function ProPlanPage({ currentPlan = "starter", initialBilling = 
                 </p>
               </div>
               <div className="flex items-center gap-3">
-                <a
-                  href="#"
+                <button
                   onClick={(e) => {
                     e.preventDefault();
                     if (!selectedPlan) {
@@ -226,13 +283,14 @@ export default function ProPlanPage({ currentPlan = "starter", initialBilling = 
                     }
                     alert(`Started free trial for ${selectedPlan} (${billing})`);
                   }}
-                  className="px-5 py-2 rounded-lg bg-indigo-600 text-white font-semibold shadow hover:bg-indigo-700"
+                  className="px-5 py-2 rounded-lg bg-indigo-600 text-white font-semibold shadow hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={!selectedPlan}
                 >
                   Start free trial
-                </a>
-                <a href="#" className="px-4 py-2 rounded-lg text-sm text-slate-700 border hover:bg-slate-50">
+                </button>
+                <button className="px-4 py-2 rounded-lg text-sm text-slate-700 border hover:bg-slate-50">
                   Compare features
-                </a>
+                </button>
               </div>
             </div>
           </section>
@@ -256,4 +314,3 @@ export default function ProPlanPage({ currentPlan = "starter", initialBilling = 
     </div>
   );
 }
-

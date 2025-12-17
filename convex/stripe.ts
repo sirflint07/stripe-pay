@@ -60,3 +60,35 @@ export const createCheckoutSession = action({
         return {checkoutUrl: session.url}
   }
 })
+
+export const createProPlanCheckoutSession = action({
+    args: {planId: v.string()},
+    handler: async (ctx, args) => {
+        const identity = await ctx.auth.getUserIdentity();
+        if (!identity) {
+            throw new ConvexError("Unauthorized");
+        }
+
+        const user = await ctx.runQuery(api.users.getUserByClerkId, {clerkId: identity.subject})
+
+        if (!user) {
+            throw new ConvexError("User not found");
+        }
+
+        const ratelimitkey = `checkout-rate-limit/${user._id}`
+        const {success} = await ratelimit.limit(ratelimitkey)
+
+        if (!success) {
+            throw new Error("Rate limit exceeded");
+        }
+
+        let priceId;
+
+        if (args.planId === 'monnth') {
+            priceId = process.env.STRIPE_MONTHLY_PRICE_ID!;
+        } else if (args.planId === 'year') {
+            priceId = process.env.STRIPE_YEARLY_PRICE_ID!;
+            console.log("Yearly plan selected, priceId:", priceId);
+        }
+    }
+})

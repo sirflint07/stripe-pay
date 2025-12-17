@@ -8,7 +8,13 @@ const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!)
 
 export async function POST (req: Request) {
 const body = await req.text()
-const signature = req.headers.get("Stripe-Signature")
+const signature = req.headers.get("stripe-signature") ?? req.headers.get("Stripe-Signature");
+const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+if (!signature || !webhookSecret) {
+    console.error("Missing stripe signature header or webhook secret env var");
+    return new Response("Missing signature or webhook secret", { status: 400 });
+  }
 
 let event: Stripe.Event;
 
@@ -57,4 +63,6 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
         amount: session.amount_total as number,
         stripePurchaseId: session.id
     })
+
+    console.log("Recorded purchase: user=", user._id, "course=", courseId, "amount=", session.amount_total);
 }

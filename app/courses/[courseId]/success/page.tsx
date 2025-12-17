@@ -1,40 +1,4 @@
-// import { Button } from '@/components/ui/button';
-// import { Card, CardContent } from '@/components/ui/card';
-// import Link from 'next/link';
-// import React from 'react'
-
-// const CoursePurchaseSuccess = ({params, searchParams}: {params: {courseId: string}; searchParams: {searchParams: {session_id: string}}}) => {
-
-//     const {courseId} = params
-//     const {session_id} = searchParams
-
-//   return (
-//     <div className='container min-h-screen flex flex-col items-center justify-center py-10 px-4'>
-//         <Card>
-//             <CardContent>
-//                 <h1 className='text-2xl font-bold mb-4'>Thank you for your purchase!</h1>
-//                 <p className='text-lg'>Your order has been successfully processed.</p>
-//                 <div>
-//                     <p>Your transaction ID is: <strong>{session_id}</strong></p>
-//                 </div>
-//                 <div>
-//                     <Link href={`/courses/${courseId}`} className='text-blue-500 hover:underline'>
-//                         <Button variant='outline'>Go back to your course</Button>
-//                     </Link>
-//                     <Link href={`/courses/`} className='text-blue-500 hover:underline'>
-//                         <Button variant='outline'>View All Courses</Button>
-//                     </Link>
-//                     <Link href={`/courses/${courseId}/resources`} className='text-blue-500 hover:underline'>
-//                         <Button variant='outline'>View course resources</Button>
-//                     </Link>
-//                 </div>
-//             </CardContent>
-//         </Card>
-//     </div>
-//   )
-// }
-
-// export default CoursePurchaseSuccess
+"use client";
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
@@ -71,17 +35,19 @@ const CoursePurchaseSuccess = ({params, searchParams}: {params: {courseId: strin
     };
 
     return (
-        <div className='min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center py-10 px-4'>
+        <div className='h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center py-10 px-4'>
             <motion.div
+                variants={containerVariants}
                 initial="hidden"
                 animate="visible"
-                variants={containerVariants}
                 className="w-full max-w-2xl"
             >
-                <Card className='border-0 shadow-xl rounded-2xl overflow-hidden'>
+                <Card className='border-0 shadow-xl rounded-2xl overflow-hidden h-[90vh]'>
                     <div className="bg-gradient-to-r from-green-500 to-emerald-600 p-6 text-white">
                         <motion.div
                             variants={itemVariants}
+                            initial="hidden"
+                            animate="visible"
                             className="text-center"
                         >
                             <CheckCircle className="w-20 h-20 mx-auto mb-4" />
@@ -95,7 +61,10 @@ const CoursePurchaseSuccess = ({params, searchParams}: {params: {courseId: strin
                     </div>
 
                     <CardContent className='p-8'>
-                        <motion.div variants={itemVariants} className="text-center mb-8">
+                        <motion.div variants={itemVariants}
+                        initial="hidden"
+                        animate="visible"
+                        className="text-center mb-8">
                             <p className="text-lg text-gray-700 mb-6">
                                 Your order has been successfully processed and you now have full access to the course content.
                             </p>
@@ -110,6 +79,8 @@ const CoursePurchaseSuccess = ({params, searchParams}: {params: {courseId: strin
 
                         <motion.div 
                             variants={itemVariants}
+                            initial="hidden"
+                            animate="visible"
                             className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6"
                         >
                             <Button 
@@ -139,6 +110,8 @@ const CoursePurchaseSuccess = ({params, searchParams}: {params: {courseId: strin
 
                         <motion.div 
                             variants={itemVariants}
+                            initial="hidden"
+                            animate="visible"
                             className="flex flex-col sm:flex-row gap-3 justify-center items-center pt-4 border-t border-gray-200"
                         >
                             <Button 
@@ -171,6 +144,8 @@ const CoursePurchaseSuccess = ({params, searchParams}: {params: {courseId: strin
 
                 <motion.div
                     variants={itemVariants}
+                    initial="hidden"
+                    animate="visible"
                     className="text-center mt-6"
                 >
                     <p className="text-sm text-gray-500">

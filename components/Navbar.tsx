@@ -16,11 +16,12 @@ import {
 import Link from "next/link";
 import React from "react";
 import { Button } from "./ui/button";
+import MobileNavbar from "./MobileNavbar";
 
 const Navbar = () => {
   return (
     <nav className="bg-white py-4 px-8 shadow-sm w-full top-0 z-50 border-b">
-      <div className="flex items-center justify-between w-[90%] mx-auto px-4 py-2">
+      <div className="hidden md:flex items-center justify-between w-[90%] mx-auto px-4 py-2">
         <div>
           <Link
             href="/"
@@ -80,6 +81,8 @@ const Navbar = () => {
           </SignedIn>
         </div>
       </div>
+
+      <MobileNavbar />
     </nav>
   );
 };

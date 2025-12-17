@@ -23,11 +23,9 @@ const CourseDetailsPage = ({params}: {params: {courseId: Id<"courses">}} ) => {
         userId: userData?._id,
         courseId: params.courseId
     } : "skip") || {hasAccess: false}
+    console.log('User Access:', userAccess)
 
-//     const userAccess = useQuery(api.users.getUserAccess, 
-//     userData ? { userId: userData._id, courseId: params.courseId } : "skip"
-// )
-
+    
     if (!isUserLoaded && courseData === undefined) {
       return <CourseDetailSkeleton />
     }
@@ -147,7 +145,7 @@ const CourseDetailsPage = ({params}: {params: {courseId: Id<"courses">}} ) => {
             </Card>
           </motion.div>
 
-          <motion.div variants={itemVariants}>
+          {userAccess.hasAccess && <motion.div variants={itemVariants}>
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -177,7 +175,7 @@ const CourseDetailsPage = ({params}: {params: {courseId: Id<"courses">}} ) => {
                 ))}
               </CardContent>
             </Card>
-          </motion.div>
+          </motion.div>}
         </div>
 
         
