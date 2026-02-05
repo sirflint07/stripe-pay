@@ -1,12 +1,14 @@
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import stripe from "@/lib/stripe";
+import { SubscriptionData } from "@/types/Courses";
 import { ConvexHttpClient } from "convex/browser";
 import Stripe from "stripe"
 
 const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!)
 
 export async function POST (req: Request) {
+    console.log("All headers:", Object.fromEntries(req.headers.entries()))
 const body = await req.text()
 const signature = req.headers.get("stripe-signature") ?? req.headers.get("Stripe-Signature");
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -19,7 +21,7 @@ if (!signature || !webhookSecret) {
 let event: Stripe.Event;
 
     try {
-        event = stripe.webhooks.constructEvent(body, signature!, process.env.STRIPE_WEBHOOK_SECRET!)
+        event = stripe.webhooks.constructEvent(body, signature!, webhookSecret!)
     } catch (error) {
         console.log("Error verifying webhook signature:", error)
         return new Response("Webhook error", { status: 400 })
@@ -29,7 +31,11 @@ let event: Stripe.Event;
         switch (event.type) {
             case 'checkout.session.completed':
                 await handleCheckoutSessionCompleted(event.data.object as Stripe.Checkout.Session)
-                break
+                break;
+            case 'customer.subscription.created':
+            case 'customer.subscription.updated':
+            await handleSubscriptionUpsert(event.data.object as Stripe.Subscription, event.type)
+            break
             default:
                 console.log("Unhandled event type:", event.type)
                 break;
@@ -65,4 +71,34 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
     })
 
     console.log("Recorded purchase: user=", user._id, "course=", courseId, "amount=", session.amount_total);
+}
+
+async function handleSubscriptionUpsert(subscription: Stripe.Subscription, eventType: string) {
+    if (subscription.status !== 'active' || !subscription.latest_invoice || subscription.latest_invoice === undefined) {
+        console.log(`Subscription ${subscription.id} is not active. Skipping upsert. Subscription Status is ${subscription.status}`);
+        return;
+    }
+
+    const customerId = subscription.customer as string;
+    const user = await convex.query(api.users.getUserByStripeCustomerId, { stripeCustomerId: customerId });
+
+    if (!user) {
+        throw new Error("User not found for customer ID: " + customerId);
+    }
+
+    try {
+      const subscriptionData: SubscriptionData = {
+        userId: user._id,
+        planType: subscription.items.data[0].plan.interval as 'month' | 'year',
+        currentPeriodStart: subscription.items.data[0].current_period_start,
+        currentPeriodEnd: subscription.items.data[0].current_period_end,
+        stripeSubscriptionId: subscription.id,
+        status: subscription.status,
+        cancelAtPeriodEnd: subscription.cancel_at_period_end
+    }
+    await convex.mutation(api.subscriptions.upsertSubscription, subscriptionData)
+    console.log(`Successfully subscribed to ${eventType} with a sub id of ${subscription.id}`)
+    } catch (error) {
+        console.log(error)
+    }
 }

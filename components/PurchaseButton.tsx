@@ -59,7 +59,11 @@ const PurchaseButton = ({courseId}: {courseId: Id<"courses">}) => {
     }
 
     if (userAccess.hasAccess) {
-        return <Button variant={'outline'} disabled={isLoading}>View Course</Button>
+        return <Button variant={'outline'} disabled={isLoading}>
+            <a href={`courses/${courseId}`} >
+            View Course
+            </a>
+            </Button>
     }
 
     

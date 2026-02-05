@@ -28,7 +28,7 @@ const MobileNavbar = () => {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
-    <>
+    <nav>
       
         <div className="md:hidden flex items-center justify-between">
           {/* Logo */}
@@ -144,7 +144,7 @@ const MobileNavbar = () => {
         </AnimatePresence>
       )}
 
-    </>
+    </nav>
   );
 };
 

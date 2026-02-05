@@ -10,7 +10,7 @@ const CoursePurchaseSuccess = ({params, searchParams}: {params: {courseId: strin
     const { courseId } = params;
     const { session_id } = searchParams;
 
-    // Animation variants
+    
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
@@ -35,6 +35,11 @@ const CoursePurchaseSuccess = ({params, searchParams}: {params: {courseId: strin
     };
 
     return (
+        <>
+        <div className='h-16 hidden md:block'>
+        <br/><br/><br/><br/>
+        </div>
+       
         <div className='h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center py-10 px-4'>
             <motion.div
                 variants={containerVariants}
@@ -42,7 +47,7 @@ const CoursePurchaseSuccess = ({params, searchParams}: {params: {courseId: strin
                 animate="visible"
                 className="w-full max-w-2xl"
             >
-                <Card className='border-0 shadow-xl rounded-2xl overflow-hidden h-[90vh]'>
+                <Card className='border-0 shadow-xl rounded-2xl overflow-hidden h-[75vh]'>
                     <div className="bg-gradient-to-r from-green-500 to-emerald-600 p-6 text-white">
                         <motion.div
                             variants={itemVariants}
@@ -51,25 +56,25 @@ const CoursePurchaseSuccess = ({params, searchParams}: {params: {courseId: strin
                             className="text-center"
                         >
                             <CheckCircle className="w-20 h-20 mx-auto mb-4" />
-                            <CardTitle className="text-3xl font-bold mb-2">
+                            <CardTitle className="text-2xl font-bold mb-2">
                                 Purchase Successful!
                             </CardTitle>
-                            <p className="text-lg opacity-90">
+                            <p className="text-base opacity-90">
                                 Welcome to your new course journey
                             </p>
                         </motion.div>
                     </div>
 
-                    <CardContent className='p-8'>
+                    <CardContent className='p-4'>
                         <motion.div variants={itemVariants}
                         initial="hidden"
                         animate="visible"
-                        className="text-center mb-8">
+                        className="text-center mb-6">
                             <p className="text-lg text-gray-700 mb-6">
                                 Your order has been successfully processed and you now have full access to the course content.
                             </p>
                             
-                            <div className="bg-gray-100 rounded-lg p-4 mb-6">
+                            <div className="bg-gray-100 rounded-lg p-4 mb-4">
                                 <p className="text-sm text-gray-600 mb-2">Transaction ID</p>
                                 <p className="font-mono text-gray-800 text-sm bg-white p-2 rounded border">
                                     {session_id}
@@ -157,6 +162,7 @@ const CoursePurchaseSuccess = ({params, searchParams}: {params: {courseId: strin
                 </motion.div>
             </motion.div>
         </div>
+         </>
     );
 }
 

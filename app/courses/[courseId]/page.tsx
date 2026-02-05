@@ -83,7 +83,10 @@ const CourseDetailsPage = ({params}: {params: {courseId: Id<"courses">}} ) => {
 
 
   return (
-    <section className='w-[90vw] mx-auto py-8 px-4'>
+    <section className='w-[90vw] mx-auto py-20 md:py-8 px-4'>
+      <div className='hidden md:block'>
+        <br/><br/><br/>
+      </div>
     <motion.div
       initial="hidden"
       animate="visible"
@@ -145,7 +148,7 @@ const CourseDetailsPage = ({params}: {params: {courseId: Id<"courses">}} ) => {
             </Card>
           </motion.div>
 
-          {userAccess.hasAccess && <motion.div variants={itemVariants}>
+          {userAccess.hasAccess ? (<motion.div variants={itemVariants}>
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -175,7 +178,18 @@ const CourseDetailsPage = ({params}: {params: {courseId: Id<"courses">}} ) => {
                 ))}
               </CardContent>
             </Card>
-          </motion.div>}
+          </motion.div>)
+          : (
+            <motion.div variants={itemVariants} className="p-6 bg-yellow-50 border border-yellow-200 rounded-lg">
+              <div className="flex gap-3 items-start">
+                <span className="text-yellow-500">&#9888;</span>
+                <p className="text-yellow-700 text-sm md:text-base">
+                  You do not have access to the course content. Please purchase the course to unlock all modules and lessons.
+                </p>
+              </div>
+            </motion.div>
+          )
+          }
         </div>
 
         

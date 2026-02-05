@@ -61,9 +61,10 @@ export const createCheckoutSession = action({
   }
 })
 
+
 export const createProPlanCheckoutSession = action({
-    args: {planId: v.string()},
-    handler: async (ctx, args) => {
+    args: {planId: v.union(v.literal("month"), v.literal("year"))},
+    handler: async (ctx, args):Promise<{checkoutUrl: string | null}> => {
         const identity = await ctx.auth.getUserIdentity();
         if (!identity) {
             throw new ConvexError("Unauthorized");
@@ -84,11 +85,34 @@ export const createProPlanCheckoutSession = action({
 
         let priceId;
 
-        if (args.planId === 'monnth') {
+        if (args.planId === 'month') {
             priceId = process.env.STRIPE_MONTHLY_PRICE_ID!;
+            console.log("Monthly plan selected, priceId:", priceId);
         } else if (args.planId === 'year') {
             priceId = process.env.STRIPE_YEARLY_PRICE_ID!;
             console.log("Yearly plan selected, priceId:", priceId);
         }
+
+        if (!priceId) {
+            throw new ConvexError("Invalid plan ID or price ID not configured");
+        }
+
+        const session = await stripe.checkout.sessions.create({
+            customer: user.stripeCustomerId,
+            line_items: [
+                {
+                    price: priceId,
+                    quantity: 1
+                }
+            ],
+            mode: "subscription",
+            success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/pro/success?session_id={CHECKOUT_SESSION_ID}&year=${args.planId === 'year' ? 'true' : 'false'}`,
+            cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/pro`,
+            metadata: {
+                userId: user._id,
+                planID: args.planId
+            }
+        })
+        return {checkoutUrl: session.url}
     }
 })
