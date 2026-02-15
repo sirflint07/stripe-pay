@@ -1,4 +1,4 @@
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 
 
@@ -40,3 +40,26 @@ export const upsertSubscription = mutation({
     }
     return { success: true}
 }});
+
+export const cancelSubscription = mutation({
+    args: {stripeSubscriptionId: v.string()},
+    handler: async (ctx, args) => {
+        const subscription = await ctx.db.query("subscriptions")
+        .withIndex("by_stripeSubscriptionId", (q) => q.eq('stripeSubscriptionId', args.stripeSubscriptionId))
+        .unique()
+        if (!subscription) {
+            throw new ConvexError('Subscription not found')
+        }
+        const user = await ctx.db.query('users')
+        .withIndex('by_currentsubscriptionId', (q) => q.eq('currentSubscriptionId', subscription._id)).unique()
+
+        if (!user) {
+            throw new ConvexError('User not found for subscription')
+        } else {
+            await ctx.db.patch(user._id, { currentSubscriptionId: undefined })
+        }
+
+        await ctx.db.delete(subscription._id)
+        return { success: true }
+    }
+})

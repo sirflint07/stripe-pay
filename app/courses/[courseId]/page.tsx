@@ -2,18 +2,18 @@
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Skeleton } from '@/components/ui/skeleton'
 import { api } from '@/convex/_generated/api'
 import { Id } from '@/convex/_generated/dataModel'
 import { useUser } from '@clerk/nextjs'
 import { useQuery } from 'convex/react'
-import { ArrowLeft, Badge, BookOpen, CheckCircle, Clock, Loader, Star, Users } from 'lucide-react'
+import { ArrowLeft, Badge, BookOpen, CheckCircle, Clock, Star, Users } from 'lucide-react'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import React from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import PurchaseButton from '@/components/PurchaseButton'
+import { CourseDetailSkeleton } from '@/components/CourseDetailsSkeleton'
 
 const CourseDetailsPage = ({params}: {params: {courseId: Id<"courses">}} ) => {
     const {user, isLoaded: isUserLoaded} = useUser()
@@ -101,7 +101,7 @@ const CourseDetailsPage = ({params}: {params: {courseId: Id<"courses">}} ) => {
       </motion.div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left Column - Course Content */}
+        
         <div className="lg:col-span-2 space-y-6">
           <motion.div variants={itemVariants}>
             <Badge className="mb-4">
@@ -239,9 +239,7 @@ const CourseDetailsPage = ({params}: {params: {courseId: Id<"courses">}} ) => {
                     <span>Certificate of Completion</span>
                   </div>
                 </div>
-                {/* <Button className="w-full" size="lg">
-                  Enroll Now
-                </Button> */}
+                
                 <PurchaseButton courseId={params.courseId} />
                 <Button variant="outline" className="w-full">
                   Add to Wishlist
@@ -282,27 +280,3 @@ const CourseDetailsPage = ({params}: {params: {courseId: Id<"courses">}} ) => {
 
 export default CourseDetailsPage
 
-function CourseDetailSkeleton () {
-  return (
-    <div className='container mx-auto py-8 px-4 relative'>
-      <div className='mx-auto'>
-        <Loader className='animate-spin h-10 w-10 text-gray-900 z-20 absolute top-1/2 left-1/2' />
-      </div>
-			<Card className='max-w-4xl mx-auto'>
-				<CardHeader>
-					<Skeleton className='w-full h-[600px] rounded-md' />
-				</CardHeader>
-				<CardContent>
-					<Skeleton className='h-10 w-3/4 mb-4' />
-					<Skeleton className='h-4 w-full mb-2' />
-					<Skeleton className='h-4 w-full mb-2' />
-					<Skeleton className='h-4 w-2/3 mb-6' />
-					<div className='grid grid-cols-1 md:grid-cols-2 gap-4 mb-8'>
-						<Skeleton className='h-10 w-full' />
-						<Skeleton className='h-10 w-full' />
-					</div>
-				</CardContent>
-			</Card>
-		</div>
-  )
-}

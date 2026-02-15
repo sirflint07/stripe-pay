@@ -1,4 +1,4 @@
-// components/footer.tsx
+
 "use client"
 
 import Link from 'next/link'
@@ -88,9 +88,8 @@ const Footer = () => {
   }
 
   return (
-    <footer className="bg-gray-900 text-gray-300 mt-16">
-      
-      <div className="container w-[88vw] md:w-[90vw] mx-auto px-4 py-12 lg:py-16">
+    <footer className="bg-gray-900 text-gray-300 mt-auto">
+      <div className="container w-[88vw] md:w-[90vw] mx-auto px-4 py-8 lg:py-10">
         <motion.div 
           initial="hidden"
           whileInView="visible"
@@ -112,13 +111,13 @@ const Footer = () => {
               </div>
             </Link>
             
-            <p className="text-gray-400 mb-6 max-w-md">
+            <p className="text-gray-400 mb-4 max-w-md text-sm">
               Empowering learners worldwide with high-quality courses, expert instructors, 
               and flexible learning paths to help you achieve your goals.
             </p>
             
             
-            <div className="space-y-3 mb-6">
+            <div className="space-y-3 mb-4 text-sm">
               {contactInfo.map((contact, index) => (
                 <motion.a
                   key={index}
@@ -151,11 +150,11 @@ const Footer = () => {
 
          
           <motion.div variants={itemVariants}>
-            <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-              <BookOpen className="h-5 w-5" />
+            <h3 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
+              <BookOpen className="h-4 w-4" />
               Courses
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-2">
               {footerLinks.courses.map((link, index) => (
                 <motion.li 
                   key={index} 
@@ -176,7 +175,7 @@ const Footer = () => {
 
           
           <motion.div variants={itemVariants}>
-            <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+            <h3 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
               <Users className="h-5 w-5" />
               Company
             </h3>
@@ -190,7 +189,7 @@ const Footer = () => {
                 >
                   <Link 
                     href={link.href} 
-                    className="text-gray-400 hover:text-white transition-colors duration-200 block"
+                    className="text-gray-400 hover:text-white transition-colors duration-200 block text-sm"
                   >
                     {link.name}
                   </Link>
@@ -225,15 +224,15 @@ const Footer = () => {
           </motion.div>
         </motion.div>
 
-        {/* Trust Badges Section */}
+        
         <motion.div 
           variants={itemVariants}
-          className="mt-12 pt-8 border-t border-gray-800"
+          className="mt-8 pt-6 border-t border-gray-800"
         >
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="text-center md:text-left">
-              <h4 className="text-lg font-semibold text-white mb-2">Trusted By</h4>
-              <p className="text-sm text-gray-400">Over 100,000+ learners worldwide</p>
+              <h4 className="text-base font-semibold text-white mb-2">Trusted By</h4>
+              <p className="text-xs text-gray-400">Over 100,000+ learners worldwide</p>
             </div>
             
             <div className="flex flex-wrap justify-center gap-6">
@@ -255,7 +254,7 @@ const Footer = () => {
       </div>
 
       
-      <div className="bg-gray-950 py-6">
+      <div className="bg-gray-950 py-2">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-center md:text-left">
@@ -278,7 +277,7 @@ const Footer = () => {
             
             <div className="text-center md:text-right">
               <p className="text-gray-500 text-sm">
-                Made with ❤️ for learners worldwide
+                Developed by <a className='text-xs text-slate-100' href="https://golden-designs-studio.vercel.app/">Fajobi Michael Oluwaseun</a>
               </p>
             </div>
           </div>

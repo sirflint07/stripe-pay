@@ -19,7 +19,7 @@ export const createCheckoutSession = action({
             throw new ConvexError("User not found");
         }
 
-        const ratelimitkey = `checkout-rate-limit/${user._id}`
+        const ratelimitkey = `checkout-rate-limit/${user._id }`
         const {success} = await ratelimit.limit(ratelimitkey)
 
         if (!success) {
@@ -54,7 +54,9 @@ export const createCheckoutSession = action({
             cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/courses/${course._id}`,
             metadata: {
                 courseId: args.courseId,
-                userId: user._id
+                userId: user._id,
+                courseTitle: course.title,
+                courseImage: course.imageUrl,
             }
         })
         return {checkoutUrl: session.url}

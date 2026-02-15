@@ -31,11 +31,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden p-0 m-0 h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-white`}
       >
-          <ConvexClientProvider>
+        <div className='absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem] opacity-40'>
+						<div className='absolute bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_800px_at_100%_200px,#C9EBFF,transparent)] opacity-75'></div>
+					</div>
+        
+        <ConvexClientProvider>
           <ToastContainer
             position="top-right"
             autoClose={3000}
@@ -48,19 +51,21 @@ export default function RootLayout({
             pauseOnHover
             theme="light"
             style={{
-            width: "100%",
-            maxWidth: "400px",
-            margin: "0 auto",
-          }}
+              width: "100%",
+              maxWidth: "400px",
+              margin: "0 auto",
+            }}
           />
-          <div className="absolute top-0 z-[-2] h-screen w-[100vw] bg-white bg-[radial-gradient(100%_50%_at_50%_0%,rgba(0,163,255,0.13)_0,rgba(0,163,255,0)_50%,rgba(0,163,255,0)_100%)] "></div>
-          <Navbar />
-          {children}
-          <Toaster duration={1000} position="bottom-right" />
-          <Footer />
+          <div className="flex-1 flex flex-col">
+            <Navbar />
+            <main className="flex-1 pt-16">
+              {children}
+            </main>
+            <Footer />
+          </div>
+          <Toaster duration={1000} position="bottom-right"/>
         </ConvexClientProvider>
-       
       </body>
     </html>
-  );
+  )
 }

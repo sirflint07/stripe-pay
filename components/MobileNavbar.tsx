@@ -31,7 +31,7 @@ const MobileNavbar = () => {
     <nav>
       
         <div className="md:hidden flex items-center justify-between">
-          {/* Logo */}
+          
           <Link
             href="/"
             className="font-extrabold text-gray-800 hover:text-blue-600 transition-colors flex items-center"

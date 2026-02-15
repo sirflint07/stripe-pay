@@ -11,7 +11,11 @@ import { Course } from '@/types/Courses';
 import PurchaseButton from "./PurchaseButton";
 import { Id } from "@/convex/_generated/dataModel";
 
+
+
 const CourseCard = ({ course }: { course: Course }) => {
+
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -53,10 +57,6 @@ const CourseCard = ({ course }: { course: Course }) => {
           </div>
           
           <div className="flex items-center space-x-2 justify-between w-full">
-            <Button variant="outline" className="text-sm font-medium" asChild>
-              <Link href="/cart">Add to Cart</Link>
-            </Button>
-            
             <SignedOut>
               <Button variant="default" className="ml-2 text-sm font-medium" asChild>
                 {/* <Link href="/sign-in">Register</Link> */}

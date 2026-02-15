@@ -18,7 +18,7 @@ export const PRO_PLANS = [
 	{
 		id: "year",
 		title: "Yearly Pro",
-		price: "$190",
+		price: "$180",
 		period: "/year",
 		features: [
 			"All Monthly Pro benefits",

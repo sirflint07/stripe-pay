@@ -40,7 +40,8 @@ export const getUserByClerkId = query({
 export const getUserByStripeCustomerId = query({
     args: {stripeCustomerId: v.string()},
     handler: async (ctx, args) => {
-        return await ctx.db.query('users').withIndex('by_stripeCustomerId', q => q.eq('stripeCustomerId', args.stripeCustomerId)).unique()
+        return await ctx.db.query('users')
+        .withIndex('by_stripeCustomerId', q => q.eq('stripeCustomerId', args.stripeCustomerId)).unique()
     }
 })
 

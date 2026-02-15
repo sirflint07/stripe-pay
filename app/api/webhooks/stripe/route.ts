@@ -36,6 +36,9 @@ let event: Stripe.Event;
             case 'customer.subscription.updated':
             await handleSubscriptionUpsert(event.data.object as Stripe.Subscription, event.type)
             break
+            case 'customer.subscription.deleted':
+                await cancelStripeSubscription(event.data.object as Stripe.Subscription)
+                break
             default:
                 console.log("Unhandled event type:", event.type)
                 break;
@@ -99,6 +102,16 @@ async function handleSubscriptionUpsert(subscription: Stripe.Subscription, event
     await convex.mutation(api.subscriptions.upsertSubscription, subscriptionData)
     console.log(`Successfully subscribed to ${eventType} with a sub id of ${subscription.id}`)
     } catch (error) {
-        console.log(error)
+        console.log(error, `Error processing ${eventType.toUpperCase()} for subscription ${subscription.id}`)
     }
+}
+
+const cancelStripeSubscription = async (subscription: Stripe.Subscription) => {
+   try {
+    await convex.mutation(api.subscriptions.cancelSubscription, {
+        stripeSubscriptionId: subscription.id
+    })
+   } catch (error) {
+    console.log('Error updating or cancelling subscription', error)
+   }
 }

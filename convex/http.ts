@@ -4,6 +4,11 @@ import { Webhook } from 'svix';
 import { WebhookEvent } from '@clerk/nextjs/server';
 import { api } from "./_generated/api";
 import stripe from '../lib/stripe';
+import resend from '../lib/resend';
+import WelcomeEmail from '../components/emails/WelcomeEmail'
+
+
+
 
 const http = httpRouter();
 
@@ -15,7 +20,7 @@ const clerkWebhook = httpAction(async (ctx, request) => {
         return new Response("Webhook secret not configured", { status: 500 });
     }
 
-    // Verify headers
+  
     const svix_id = request.headers.get('svix-id');
     const svix_signature = request.headers.get('svix-signature');
     const svix_timestamp = request.headers.get('svix-timestamp');
@@ -25,7 +30,7 @@ const clerkWebhook = httpAction(async (ctx, request) => {
         return new Response('Missing Svix headers', { status: 400 });
     }
 
-    // Get raw body for verification
+   
     const payload = await request.text();
     
     const wh = new Webhook(webHookSecret);
@@ -42,7 +47,7 @@ const clerkWebhook = httpAction(async (ctx, request) => {
         return new Response('Invalid signature', { status: 400 });
     }
 
-    // Handle user.created event
+   
     if (evt.type === 'user.created') {
         console.log('Processing user.created event:', evt.data);
         
@@ -74,6 +79,15 @@ const clerkWebhook = httpAction(async (ctx, request) => {
                 stripeCustomerId: customer.id
             });
 
+           if (process.env.NODE_ENV === 'development') {
+             await resend.emails.send({
+                from: 'CourseKindom <onboarding@resend.dev>',
+                to: email,
+                subject: 'Welcome to CourseKindom!',
+                react: WelcomeEmail({ name, url: `${process.env.NEXT_PUBLIC_BASE_URL}/courses` })
+            })
+           }
+
             console.log('Created Convex user:', result);
             
             return new Response('User created successfully', { status: 200 });
@@ -93,3 +107,5 @@ http.route({
 });
 
 export default http;
+
+// WelcomeEmail({ name, url: `${process.env.NEXT_PUBLIC_BASE_URL}/courses` })

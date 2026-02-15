@@ -1,11 +1,13 @@
 import PurchaseButton from '@/components/PurchaseButton'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { api } from '@/convex/_generated/api'
-import { SignedIn, SignedOut } from '@clerk/nextjs'
+import { auth, SignedIn, SignedOut } from '@clerk/nextjs'
+
 import { AspectRatio } from '@radix-ui/react-aspect-ratio'
 import { fetchQuery } from 'convex/nextjs'
-import { ArrowLeftCircle } from 'lucide-react'
+import { ArrowLeftCircle, CheckCircle, MinusCircle } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -13,6 +15,27 @@ import { PiHandPointing } from "react-icons/pi";
 
 const AllCourses = async () => {
   const courses = await fetchQuery(api.courses.getCourses, {})
+   const { userId } = auth()
+   console.log('userID: ',userId)
+
+    let userData = null
+    let subscription = null
+    let hasProAccess = false
+
+     if (userId) {
+    userData = await fetchQuery(api.users.getUserByClerkId, { clerkId: userId })
+    
+    if (userData) {
+      subscription = await fetchQuery(api.subscriptions.getUserSubscription, { 
+        userId: userData._id 
+      })
+      
+      
+      hasProAccess = subscription?.status === 'active'
+      console.log('User subscription status: ', hasProAccess)
+    }
+  }
+  
   return (
     <main className='w-[95vw] lg:w-4/5 mx-auto py-12 overflow-hidden'>
       <div className='flex justify-between items-center mb-8'>
@@ -23,7 +46,7 @@ const AllCourses = async () => {
         </Link>
         </div>
     
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mx-auto">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mx-auto">
       
         {courses.map((course) => (
           <Card key={course._id} className="hover:shadow-lg transition-shadow">
@@ -50,13 +73,22 @@ const AllCourses = async () => {
     <div className="flex items-center justify-between mb-2 w-full mx-auto pl-3">
       <span className="font-semibold">${course.price.toFixed(2)}</span>
       <Link href={`courses/${course._id}`} className="text-sm font-medium text-primary hover:underline opacity-50 transition-opacity">
-        View Details
+       {
+        hasProAccess ? (
+           <Badge className=" bg-green-100 text-green-700 border-green-200 hover:bg-green-200">
+    <CheckCircle className="w-3 h-3 mr-1" />
+    Enrolled
+  </Badge>
+        ) : (
+          <Badge variant="outline" className="bg-white text-gray-800 border-gray-300">
+  <MinusCircle className="w-3 h-3 mr-1" />
+  Unenrolled
+</Badge>
+        )
+       }
       </Link>
     </div>
     <div className="flex items-center space-x-2 justify-between w-full">
-      <Button asChild variant="outline" className="text-sm font-medium">
-        <Link href={'/cart'}>Add to Cart</Link>
-      </Button>
       <SignedOut>
         <Button asChild variant="default" className="ml-2 text-sm font-medium">
           <Link href={'/sign-in'}>Register</Link>
