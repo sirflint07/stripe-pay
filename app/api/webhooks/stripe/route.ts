@@ -128,7 +128,7 @@ async function handleSubscriptionUpsert(subscription: Stripe.Subscription, event
         subject: `🎉 Your subscription to ${eventType} was successful!`,
         react: ProPlanActivatedEmail({
             name: user.name || "Customer",
-            planType: eventType,
+            planType: subscription.items.data[0].plan.interval === 'month' ? 'Month' : 'Year',
             currentPeriodStart: subscription.items.data[0].current_period_start,
             currentPeriodEnd: subscription.items.data[0].current_period_end,
             url: `${process.env.NEXT_PUBLIC_BASE_URL}/pro`
