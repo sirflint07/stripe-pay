@@ -4,8 +4,7 @@ import { Webhook } from 'svix';
 import { WebhookEvent } from '@clerk/nextjs/server';
 import { api } from "./_generated/api";
 import stripe from '../lib/stripe';
-import resend from '../lib/resend';
-import WelcomeEmail from '../components/emails/WelcomeEmail'
+
 
 
 
@@ -79,14 +78,13 @@ const clerkWebhook = httpAction(async (ctx, request) => {
                 stripeCustomerId: customer.id
             });
 
-           if (process.env.NODE_ENV === 'development') {
-             await resend.emails.send({
-                from: 'CourseKindom <onboarding@resend.dev>',
-                to: email,
-                subject: 'Welcome to CourseKindom!',
-                react: WelcomeEmail({ name, url: `${process.env.NEXT_PUBLIC_BASE_URL}/courses` })
-            })
-           }
+
+            if (process.env.NODE_ENV === 'development') {
+             await ctx.scheduler.runAfter(0, api.email.sendWelcomeEmail, {
+                email,
+                name
+            })};
+
 
             console.log('Created Convex user:', result);
             
@@ -107,5 +105,3 @@ http.route({
 });
 
 export default http;
-
-// WelcomeEmail({ name, url: `${process.env.NEXT_PUBLIC_BASE_URL}/courses` })

@@ -55,7 +55,7 @@ const CoursePurchaseSuccess = ({params, searchParams}: {params: {courseId: strin
                             animate="visible"
                             className="text-center"
                         >
-                            <CheckCircle className="w-20 h-20 mx-auto mb-4" />
+                            <CheckCircle className="size-12 mx-auto mb-4" />
                             <CardTitle className="text-2xl font-bold mb-2">
                                 Purchase Successful!
                             </CardTitle>

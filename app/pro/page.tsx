@@ -5,7 +5,7 @@ import { useAction, useQuery } from "convex/react";
 import { toast } from "react-toastify";
 import { PRO_PLANS } from "@/constants";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check, Loader2Icon } from "lucide-react";
+import { AlertCircle, Check, Loader2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { toast as ToastContainer} from "sonner";
@@ -58,9 +58,14 @@ const ProPlanPage = () => {
       <div className="hidden md:block"><br /><br /><br /></div>
       {
 		isUserLoaded && userSubscription?.status !== 'active' && (
-			<div className='bg-blue-100 text-purple-600 py-2 rounded-xl px-4 mb-9 flex items-center border border-l-4 border-purple-600'>
-      You have a subscription plan that is active. Please choose a plan to upgrade or change your current plan.
-      </div>
+			<div className='flex items-center gap-3 bg-amber-50 border border-amber-200 rounded-lg px-4 py-3 mb-8'>
+  <AlertCircle className='w-5 h-5 text-amber-500 flex-shrink-0' />
+  <p className='text-sm text-amber-800 flex-1'>
+    <span className='font-medium'>No active subscription.</span>{' '}
+    Upgrade to Pro to unlock premium features!
+  </p>
+  
+</div>
 		)
 	  }
 			<h1 className='text-4xl font-bold text-center mb-4 text-gray-800'>Choose Your Pro Journey</h1>
@@ -122,7 +127,7 @@ const ProPlanPage = () => {
 							</ul>
 						</CardContent>
 
-						<CardFooter className='mt-auto'>
+						<CardFooter className='mt-auto' id="faq">
 							<Button
 								className={`w-full py-6 text-lg ${
 									plan.highlighted

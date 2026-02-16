@@ -56,7 +56,7 @@ export const createCheckoutSession = action({
                 courseId: args.courseId,
                 userId: user._id,
                 courseTitle: course.title,
-                courseImage: course.imageUrl,
+                courseImage: course.imageUrl
             }
         })
         return {checkoutUrl: session.url}

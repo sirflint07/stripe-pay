@@ -1,5 +1,8 @@
+import CoursePurchaseEmail from "@/components/emails/CoursePurchaseEmail";
+import ProPlanActivatedEmail from "@/components/emails/ProPlanSuccessEmail";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
+import resend from "@/lib/resend";
 import stripe from "@/lib/stripe";
 import { SubscriptionData } from "@/types/Courses";
 import { ConvexHttpClient } from "convex/browser";
@@ -73,8 +76,25 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
         stripePurchaseId: session.id
     })
 
-    console.log("Recorded purchase: user=", user._id, "course=", courseId, "amount=", session.amount_total);
+    // send email
+
+    if (session.metadata && session.metadata.courseTitle && session.metadata.courseImage && process.env.NODE_ENV === 'development' ) {
+         resend.emails.send({
+        from: 'CourseKingdom <onboarding@resend.dev>',
+        to: user.email,
+        subject: '🎉 Your purchase was successful!',
+        react: CoursePurchaseEmail({
+            customerName: user.name || "Customer",
+            courseTitle: session.metadata?.courseTitle || "your course",
+            courseImage: session.metadata?.courseImage || "",
+            courseUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/courses/${courseId}`,
+            purchaseAmount: (session.amount_total as number) / 100,
+    })
+        })
+            }
+            console.log('✅ Purchase Confirmation email sent successfully');
 }
+
 
 async function handleSubscriptionUpsert(subscription: Stripe.Subscription, eventType: string) {
     if (subscription.status !== 'active' || !subscription.latest_invoice || subscription.latest_invoice === undefined) {
@@ -100,6 +120,22 @@ async function handleSubscriptionUpsert(subscription: Stripe.Subscription, event
         cancelAtPeriodEnd: subscription.cancel_at_period_end
     }
     await convex.mutation(api.subscriptions.upsertSubscription, subscriptionData)
+
+
+    await resend.emails.send({
+        from: 'CourseKingdom <onboarding@resend.dev>',
+        to: user.email,
+        subject: `🎉 Your subscription to ${eventType} was successful!`,
+        react: ProPlanActivatedEmail({
+            name: user.name || "Customer",
+            planType: eventType,
+            currentPeriodStart: subscription.items.data[0].current_period_start,
+            currentPeriodEnd: subscription.items.data[0].current_period_end,
+            url: `${process.env.NEXT_PUBLIC_BASE_URL}/pro`
+        })
+    })
+    console.log('✅ Subscription email sent successfully')
+
     console.log(`Successfully subscribed to ${eventType} with a sub id of ${subscription.id}`)
     } catch (error) {
         console.log(error, `Error processing ${eventType.toUpperCase()} for subscription ${subscription.id}`)

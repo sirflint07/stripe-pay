@@ -19,7 +19,8 @@ export const getUserSubscription = query({
     },
 })
 
-export const upsertSubscription = mutation({
+export const 
+upsertSubscription = mutation({
     args: {
         userId: v.id("users"),
         planType: v.union(v.literal('month'), v.literal('year')),
@@ -40,6 +41,7 @@ export const upsertSubscription = mutation({
     }
     return { success: true}
 }});
+
 
 export const cancelSubscription = mutation({
     args: {stripeSubscriptionId: v.string()},
