@@ -22,7 +22,7 @@ export const POST = async () => {
 
         const sessions = await stripe.billingPortal.sessions.create({
             customer: user.stripeCustomerId,
-            return_url: 'http://localhost:4000/billing'
+            return_url: process.env.NODE_ENV === 'development' ? 'http://localhost:4000/billing' : 'https://coursekingdom.vercel.app/billing'
         })
         return NextResponse.json({ url: sessions.url })
     } catch (error) {

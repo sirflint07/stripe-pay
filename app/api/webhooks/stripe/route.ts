@@ -87,7 +87,7 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
             customerName: user.name || "Customer",
             courseTitle: session.metadata?.courseTitle || "your course",
             courseImage: session.metadata?.courseImage || "",
-            courseUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/courses/${courseId}`,
+            courseUrl: process.env.NODE_ENV === 'development' ? `${process.env.NEXT_PUBLIC_BASE_URL}/courses/${courseId}` : 'https://coursekingdom.vercel.app/courses/${courseId}',
             purchaseAmount: (session.amount_total as number) / 100,
     })
         })
@@ -131,7 +131,7 @@ async function handleSubscriptionUpsert(subscription: Stripe.Subscription, event
             planType: subscription.items.data[0].plan.interval === 'month' ? 'Month' : 'Year',
             currentPeriodStart: subscription.items.data[0].current_period_start,
             currentPeriodEnd: subscription.items.data[0].current_period_end,
-            url: `${process.env.NEXT_PUBLIC_BASE_URL}/pro`
+            url: process.env.NODE_ENV === 'development' ? `${process.env.NEXT_PUBLIC_BASE_URL}/pro` : 'https://coursekingdom.vercel.app/pro'
         })
     })
     console.log('✅ Subscription email sent successfully')
