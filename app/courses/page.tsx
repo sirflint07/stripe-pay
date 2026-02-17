@@ -15,12 +15,14 @@ import { PiHandPointing } from "react-icons/pi";
 
 const AllCourses = async () => {
   const courses = await fetchQuery(api.courses.getCourses, {})
+  
    const { userId } = auth()
    console.log('userID: ',userId)
 
     let userData = null
     let subscription = null
     let hasProAccess = false
+    let userAcess = null;
 
      if (userId) {
     userData = await fetchQuery(api.users.getUserByClerkId, { clerkId: userId })
@@ -29,6 +31,10 @@ const AllCourses = async () => {
       subscription = await fetchQuery(api.subscriptions.getUserSubscription, { 
         userId: userData._id 
       })
+
+      const purchases = await fetchQuery(api.purchases.getPurchaseAccess, {userId: userData._id, courseId: courses[0]._id})
+
+      userAcess = purchases.hasAccess
       
       
       hasProAccess = subscription?.status === 'active'
@@ -74,7 +80,7 @@ const AllCourses = async () => {
       <span className="font-semibold">${course.price.toFixed(2)}</span>
       <Link href={`courses/${course._id}`} className="text-sm font-medium text-primary hover:underline opacity-50 transition-opacity">
        {
-        hasProAccess ? (
+        hasProAccess || userAcess ? (
            <Badge className=" bg-green-100 text-green-700 border-green-200 hover:bg-green-200">
     <CheckCircle className="w-3 h-3 mr-1" />
     Enrolled

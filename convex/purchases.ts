@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { mutation } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 
 export const recordPurchase = mutation({
   args: {
@@ -33,3 +33,23 @@ export const recordPurchase = mutation({
     return await ctx.db.get(purchaseId);
   },
 });
+
+export const getPurchaseAccess = query({
+  args: {
+    userId: v.id("users"),
+    courseId: v.id("courses")
+  },
+  handler: async (ctx, args) => {
+    const purchase = await ctx.db.query("purchases")
+      .withIndex("by_userId_and_courseId", q =>
+        q.eq("courseId", args.courseId).eq("userId", args.userId)
+      )
+      .unique();
+      
+   if (!purchase) {
+            return {hasAccess: false}
+        } else {
+            return {hasAccess: true, AccessType: 'course'}
+        }
+  }
+})

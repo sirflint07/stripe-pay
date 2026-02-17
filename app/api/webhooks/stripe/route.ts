@@ -76,7 +76,6 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
         stripePurchaseId: session.id
     })
 
-    // send email
 
     if (session.metadata && session.metadata.courseTitle && session.metadata.courseImage && process.env.NODE_ENV === 'development' ) {
          resend.emails.send({
