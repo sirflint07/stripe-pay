@@ -45,7 +45,7 @@ export const getPurchaseAccess = query({
         q.eq("courseId", args.courseId).eq("userId", args.userId)
       )
       .unique();
-      
+
    if (!purchase) {
             return {hasAccess: false}
         } else {
@@ -53,3 +53,33 @@ export const getPurchaseAccess = query({
         }
   }
 })
+
+
+export const getBulkPurchaseAccess = query({
+  args: {
+    userId: v.id("users"),
+    courseIds: v.array(v.id("courses"))
+  },
+  handler: async (ctx, args) => {
+    // Fetch all purchases for this user
+    const purchases = await ctx.db
+      .query("purchases")
+      .withIndex("by_userId", (q) => q.eq("userId", args.userId))
+      .collect();
+    
+    // Create a Set of purchased course IDs for quick lookup
+    const purchasedCourseIds = new Set(
+      purchases
+        .filter(p => args.courseIds.includes(p.courseId))
+        .map(p => p.courseId.toString())
+    );
+    
+    // Return access status for each course
+    const result: Record<string, boolean> = {};
+    args.courseIds.forEach(courseId => {
+      result[courseId.toString()] = purchasedCourseIds.has(courseId.toString());
+    });
+    
+    return result;
+  }
+});
