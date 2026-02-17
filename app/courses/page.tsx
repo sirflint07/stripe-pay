@@ -22,21 +22,21 @@ const AllCourses = async () => {
     let userData = null
     let subscription = null
     let hasProAccess = false
-    //const userAcess = false;
+   
     let accessMap: Record<string, boolean> = {};
 
 if (userId) {
   userData = await fetchQuery(api.users.getUserByClerkId, { clerkId: userId })
   
   if (userData) {
-    // Get subscription status
+    
     subscription = await fetchQuery(api.subscriptions.getUserSubscription, { 
       userId: userData._id 
     })
     hasProAccess = subscription?.status === 'active'
     console.log('User subscription status: ', hasProAccess)
 
-    // For single course access (your existing logic)
+    
     if (courses.length > 0) {
       const purchase = await fetchQuery(api.purchases.getPurchaseAccess, {
         userId: userData._id, 
@@ -46,7 +46,7 @@ if (userId) {
       console.log('Single course access:', userAccess)
     }
 
-    // Get access for ALL courses (using bulk query)
+    
     if (courses.length > 0) {
       accessMap = await fetchQuery(api.purchases.getBulkPurchaseAccess, {
         userId: userData._id,

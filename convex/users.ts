@@ -76,29 +76,3 @@ export const getUserAccess = query({
         }
     }
 })
-
-
-// export const getCoursesAccess = query({
-//   args: {
-//     userId: v.id("users"),
-//     courseIds: v.array(v.id("courses"))
-//   },
-//   handler: async (ctx, args) => {
-//     // Fetch all purchases for this user and the specified courses
-//     const purchases = await ctx.db
-//       .query("purchases")
-//       .withIndex("by_userId", (q) => q.eq("userId", args.userId))
-//       .collect()
-    
-//     // Filter purchases to only those in the courseIds array
-//     const relevantPurchases = purchases.filter(p => 
-//       args.courseIds.includes(p.courseId)
-//     )
-    
-//     // Create a map of courseId -> hasAccess
-//     return args.courseIds.reduce((map, courseId) => {
-//       map[courseId] = relevantPurchases.some(p => p.courseId === courseId)
-//       return map
-//     }, {})
-//   }
-// })
