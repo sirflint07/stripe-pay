@@ -268,10 +268,10 @@ const BillingPage = () => {
                   <CreditCard className="h-8 w-8 text-purple-600" />
                 </div>
                 
-                <CardTitle className="text-3xl font-bold text-gray-900 mb-3">
+                <CardTitle className="text-3xl dark:text-slate-100 font-bold text-gray-900 mb-3">
                   No Active Subscription
                 </CardTitle>
-                <CardDescription className="text-gray-600 text-lg max-w-md mx-auto mb-8">
+                <CardDescription className="text-gray-600 dark:text-slate-50 text-base md:text-lg max-w-md mx-auto mb-8">
                   Upgrade to Pro and unlock premium courses, priority support, and exclusive features.
                 </CardDescription>
 

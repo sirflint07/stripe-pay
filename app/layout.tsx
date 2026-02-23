@@ -40,7 +40,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-white  text-gray-900`}
       >
         <Providers attribute="class" defaultTheme="dark" enableSystem>
-					<div className='absolute bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_800px_at_100%_200px,#C9EBFF,transparent)] opacity-45 h-screen'></div>
+					<div className='absolute bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_800px_at_100%_200px,#C9EBFF,transparent)] opacity-45 h-screen -z-30'></div>
           <ConvexClientProvider>
             <ToastContainer
               position="top-right"

@@ -57,11 +57,11 @@ const Footer = () => {
   }
 
   const socialLinks = [
-    { icon: Facebook, href: 'https://facebook.com/coursekingdom', label: 'Facebook' },
-    { icon: Twitter, href: 'https://twitter.com/coursekingdom', label: 'Twitter' },
-    { icon: Instagram, href: 'https://instagram.com/coursekingdom', label: 'Instagram' },
-    { icon: Linkedin, href: 'https://linkedin.com/company/coursekingdom', label: 'LinkedIn' },
-    { icon: Youtube, href: 'https://youtube.com/coursekingdom', label: 'YouTube' },
+    { icon: Facebook, href: 'https://www.facebook.com/michael.flint/', label: 'Facebook' },
+    { icon: Twitter, href: 'https://x.com/golden_designs7', label: 'Twitter' },
+    { icon: Instagram, href: 'https://www.instagram.com/golden_devdesigns07?igsh=ZzUybDVoaDU2Mnhx', label: 'Instagram' },
+    { icon: Linkedin, href: 'https://www.linkedin.com/in/fajobi-michael-olufemi/', label: 'LinkedIn' },
+    { icon: Youtube, href: 'https://www.youtube.com/channel/UC4L2PqObzbKbkk7VNiMsulw', label: 'YouTube' },
   ]
 
   const contactInfo = [

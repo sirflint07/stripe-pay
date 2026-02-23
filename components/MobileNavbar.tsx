@@ -104,7 +104,7 @@ const MobileNavbar = () => {
 
   return (
     <>
-      <div className="md:hidden flex items-center justify-between w-full px-4 py-3 bg-white border-b border-gray-100 fixed top-0 left-0 right-0 z-50">
+      <div className="md:hidden flex items-center justify-between w-full px-4 py-3 bg-white border-b border-gray-100 fixed top-0 left-0 right-0 z-50 dark:bg-gray-900 dark:border-gray-700">
         <Link
           href="/"
           className="font-extrabold text-gray-800 hover:text-blue-600 transition-colors flex items-center gap-2 group"
@@ -113,7 +113,7 @@ const MobileNavbar = () => {
           <div className="p-1.5 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg group-hover:scale-110 transition-transform">
             <GraduationCap size={18} className="text-white" />
           </div>
-          <span className="text-sm sm:text-base tracking-tight">
+          <span className="text-sm sm:text-base tracking-tight dark:text-white">
             COURSE<span className="text-blue-600">KINGDOM</span>
           </span>
         </Link>
@@ -139,7 +139,7 @@ const MobileNavbar = () => {
                   exit={{ rotate: 90, opacity: 0 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <X size={22} className="text-gray-700" />
+                  <X size={22} className="text-gray-700 dark:text-white" />
                 </motion.div>
               ) : (
                 <motion.div
@@ -149,7 +149,7 @@ const MobileNavbar = () => {
                   exit={{ rotate: -90, opacity: 0 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <Menu size={22} className="text-gray-700" />
+                  <Menu size={22} className="text-gray-700 dark:text-white" />
                 </motion.div>
               )}
             </AnimatePresence>
@@ -178,7 +178,7 @@ const MobileNavbar = () => {
               exit="closed"
               className="fixed right-0 top-0 h-full w-[280px] sm:w-[320px] bg-white shadow-2xl z-50 md:hidden flex flex-col"
             >
-              <div className="bg-gradient-to-br from-gray-600 via-gray-800 to-gray-900 p-6 text-white">
+              <div className="bg-gradient-to-br from-gray-600 via-gray-800 to-gray-900 dark:bg-gradient-to-br dark:from-blue-500 dark:to-purple-600 p-6 text-white">
                 <div className="flex items-center gap-3 mb-2">
                   <div className="p-2 bg-white/20 rounded-xl backdrop-blur-sm">
                     <GraduationCap size={24} className="text-white" />
