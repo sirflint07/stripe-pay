@@ -172,7 +172,6 @@ const SimpleProPlanSuccessPage = ({ searchParams }: PageProps) => {
         <br/>
       </div>
       <div className="max-w-md mx-auto">
-        {/* Rest of your JSX remains the same */}
         <div className="flex justify-center mb-8">
           <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center shadow-lg">
             <CheckCircle className="w-12 h-12 text-white" />

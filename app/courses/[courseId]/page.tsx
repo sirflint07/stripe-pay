@@ -37,7 +37,7 @@ const CourseDetailsPage = ({params}: {params: {courseId: Id<"courses">}} ) => {
       console.log('A')
     }
 
-     // Animation variants
+     
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -241,7 +241,7 @@ const CourseDetailsPage = ({params}: {params: {courseId: Id<"courses">}} ) => {
                 </div>
                 
                 <PurchaseButton courseId={params.courseId} />
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full dark:bg-muted">
                   Add to Wishlist
                 </Button>
               </CardContent>

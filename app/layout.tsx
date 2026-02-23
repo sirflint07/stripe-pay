@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   title: "CourseKingdom",
   description: "A platform for premium courses and resources",
   icons: {
-    icon: "/icons/favicon.png",
+    icon: "/icons/favicon-dark.png",
   },
 };
 
@@ -40,10 +40,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-white  text-gray-900`}
       >
         <Providers attribute="class" defaultTheme="dark" enableSystem>
-        <div className='absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem] opacity-40'>
-						<div className='absolute bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_800px_at_100%_200px,#C9EBFF,transparent)] opacity-75'></div>
-					</div>
-        
+					<div className='absolute bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_800px_at_100%_200px,#C9EBFF,transparent)] opacity-45 h-screen'></div>
           <ConvexClientProvider>
             <ToastContainer
               position="top-right"
@@ -73,7 +70,6 @@ export default function RootLayout({
           </ConvexClientProvider>
           </Providers>
       </body>
-      
     </html>
   )
 }

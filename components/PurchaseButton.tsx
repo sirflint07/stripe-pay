@@ -53,7 +53,7 @@ const PurchaseButton = ({courseId}: {courseId: Id<"courses">}) => {
     }
 
     if (!userAccess.hasAccess) {
-    return <Button variant={'secondary'} onClick={handlePurchase} disabled={isLoading}>
+    return <Button variant={'secondary'} onClick={handlePurchase} disabled={isLoading} className='dark:bg-amber-500'>
         Enroll Now
     </Button>
     }

@@ -1,169 +1,134 @@
-"use client";
+'use client'
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardTitle } from '@/components/ui/card';
-import Link from 'next/link';
-import { CheckCircle, ArrowRight, Download, Home, BookOpen } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
+import { CheckCircle, ArrowRight, Coins, Home } from 'lucide-react'
+import { useSearchParams } from 'next/navigation'
+import { useEffect, useState, Suspense } from 'react'
 
-const CoursePurchaseSuccess = ({params, searchParams}: {params: {courseId: string}; searchParams: {session_id: string}}) => {
-    const { courseId } = params;
-    const { session_id } = searchParams;
 
-    
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.2,
-                delayChildren: 0.3
-            }
-        }
-    };
+function SuccessContent() {
+  const searchParams = useSearchParams()
+  const isYearly = searchParams.get('year') === 'true'
+  
+  const [mounted, setMounted] = useState(false)
 
-    const itemVariants = {
-        hidden: { y: 20, opacity: 0 },
-        visible: {
-            y: 0,
-            opacity: 1,
-            transition: {
-                duration: 0.6,
-                ease: "easeOut"
-            }
-        }
-    };
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
-    return (
-        <>
-        <div className='h-16 hidden md:block'>
-        <br/><br/><br/><br/>
+  const benefits = isYearly
+    ? [
+        "Full year access to all premium courses",
+        "Save 17% vs monthly",
+        "Priority support",
+        "Exclusive yearly events",
+        "Early access to new courses",
+      ]
+    : [
+        "Access to all premium courses",
+        "Priority support",
+        "Exclusive community",
+        "Monthly Q&A sessions",
+        "Course updates included",
+      ]
+
+  if (!mounted) {
+    return null
+  }
+
+  return (
+    <div className="max-w-md mx-auto">
+      <div className="flex justify-center mb-8">
+        <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center shadow-lg">
+          <CheckCircle className="w-12 h-12 text-white" />
         </div>
-       
-        <div className='h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center py-10 px-4'>
-            <motion.div
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-                className="w-full max-w-2xl"
-            >
-                <Card className='border-0 shadow-xl rounded-2xl overflow-hidden h-[75vh]'>
-                    <div className="bg-gradient-to-r from-green-500 to-emerald-600 p-6 text-white">
-                        <motion.div
-                            variants={itemVariants}
-                            initial="hidden"
-                            animate="visible"
-                            className="text-center"
-                        >
-                            <CheckCircle className="size-12 mx-auto mb-4" />
-                            <CardTitle className="text-2xl font-bold mb-2">
-                                Purchase Successful!
-                            </CardTitle>
-                            <p className="text-base opacity-90">
-                                Welcome to your new course journey
-                            </p>
-                        </motion.div>
-                    </div>
+      </div>
 
-                    <CardContent className='p-4'>
-                        <motion.div variants={itemVariants}
-                        initial="hidden"
-                        animate="visible"
-                        className="text-center mb-6">
-                            <p className="text-lg text-gray-700 mb-6">
-                                Your order has been successfully processed and you now have full access to the course content.
-                            </p>
-                            
-                            <div className="bg-gray-100 rounded-lg p-4 mb-4">
-                                <p className="text-sm text-gray-600 mb-2">Transaction ID</p>
-                                <p className="font-mono text-gray-800 text-sm bg-white p-2 rounded border">
-                                    {session_id}
-                                </p>
-                            </div>
-                        </motion.div>
-
-                        <motion.div 
-                            variants={itemVariants}
-                            initial="hidden"
-                            animate="visible"
-                            className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6"
-                        >
-                            <Button 
-                                asChild 
-                                className="h-12 bg-emerald-600 hover:bg-emerald-700 text-white transition-all duration-300"
-                                size="lg"
-                            >
-                                <Link href={`/courses/${courseId}`}>
-                                    <BookOpen className="w-5 h-5 mr-2" />
-                                    Start Learning
-                                    <ArrowRight className="w-4 h-4 ml-2" />
-                                </Link>
-                            </Button>
-
-                            <Button 
-                                asChild 
-                                variant="outline" 
-                                className="h-12 border-gray-300 hover:bg-gray-50 transition-all duration-300"
-                                size="lg"
-                            >
-                                <Link href={`/courses/${courseId}/resources`}>
-                                    <Download className="w-5 h-5 mr-2" />
-                                    Resources
-                                </Link>
-                            </Button>
-                        </motion.div>
-
-                        <motion.div 
-                            variants={itemVariants}
-                            initial="hidden"
-                            animate="visible"
-                            className="flex flex-col sm:flex-row gap-3 justify-center items-center pt-4 border-t border-gray-200"
-                        >
-                            <Button 
-                                asChild 
-                                variant="ghost" 
-                                className="text-gray-600 hover:text-gray-800"
-                                size="sm"
-                            >
-                                <Link href="/courses">
-                                    <Home className="w-4 h-4 mr-2" />
-                                    Browse More Courses
-                                </Link>
-                            </Button>
-                            
-                            <span className="text-gray-400 hidden sm:block">•</span>
-                            
-                            <Button 
-                                asChild 
-                                variant="ghost" 
-                                className="text-gray-600 hover:text-gray-800"
-                                size="sm"
-                            >
-                                <Link href="/dashboard">
-                                    Go to Dashboard
-                                </Link>
-                            </Button>
-                        </motion.div>
-                    </CardContent>
-                </Card>
-
-                <motion.div
-                    variants={itemVariants}
-                    initial="hidden"
-                    animate="visible"
-                    className="text-center mt-6"
-                >
-                    <p className="text-sm text-gray-500">
-                        Need help?{' '}
-                        <Link href="/support" className="text-emerald-600 hover:underline">
-                            Contact support
-                        </Link>
-                    </p>
-                </motion.div>
-            </motion.div>
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          Pro Plan Activated
+        </h1>
+        <div className={`inline-flex items-center gap-2 px-4 py-1 rounded-full ${isYearly ? 'bg-yellow-100 text-yellow-800' : 'bg-blue-100 text-blue-800'} font-medium`}>
+          {isYearly ? '🎉 Yearly Plan' : '🚀 Monthly Plan'}
         </div>
-         </>
-    );
+        <p className="text-gray-600 mt-4">
+          Your subscription is now active. Start learning today.
+        </p>
+      </div>
+
+      <div className="bg-gray-50 rounded-xl p-6 mb-8">
+        <h3 className="font-semibold text-gray-900 mb-4">
+          What you get:
+        </h3>
+        <ul className="space-y-3">
+          {benefits.map((benefit, index) => (
+            <li key={index} className="flex items-start gap-3">
+              <div className="w-5 h-5 flex-shrink-0 flex items-center justify-center bg-green-100 text-green-600 rounded-full text-xs mt-0.5">
+                ✓
+              </div>
+              <span className="text-gray-700">{benefit}</span>
+            </li>
+          ))}
+        </ul>
+
+        {isYearly && (
+          <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+            <p className="text-yellow-800 text-sm">
+              <span className="font-semibold">Yearly Bonus:</span> You&apos;re saving 17%!
+            </p>
+          </div>
+        )}
+      </div>
+
+      <div className="space-y-4">
+        <Button asChild className="w-full h-12">
+          <Link href="/courses" className="flex items-center justify-center">
+            Start Learning
+            <ArrowRight className="w-4 h-4 ml-2" />
+          </Link>
+        </Button>
+
+        <div className="flex gap-4">
+          <Button asChild variant="outline" className="flex-1 h-10">
+            <Link href="/dashboard" className='flex gap-2'>
+              <span><Home className='size-6'/></span><span>Home</span>
+            </Link>
+          </Button>
+          <Button asChild variant="outline" className="flex-1 h-10">
+            <Link href="/billing" className='flex gap-2'>
+              <span className='inline-block'><Coins className='size-6'/></span>
+              <span className='inline-block'>Billing</span>
+            </Link>
+          </Button>
+        </div>
+      </div>
+
+      <div className="mt-8 pt-6 border-t border-gray-200 text-center">
+        <p className="text-sm text-gray-500">
+          Subscription renews {isYearly ? 'yearly' : 'monthly'}. Cancel anytime.
+        </p>
+      </div>
+    </div>
+  )
 }
 
-export default CoursePurchaseSuccess;
+const SimpleProPlanSuccessPage = () => {
+  return (
+    <div className="min-h-screen bg-white px-4 py-12">
+      <div>
+        <br/>
+      </div>
+      <Suspense fallback={
+        <div className="max-w-md mx-auto text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
+      }>
+        <SuccessContent />
+      </Suspense>
+    </div>
+  )
+}
+
+export default SimpleProPlanSuccessPage

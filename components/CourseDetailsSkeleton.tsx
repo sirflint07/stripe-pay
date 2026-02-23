@@ -85,9 +85,9 @@ export function CourseDetailSkeleton () {
             </Card>
           </div>
 
-          {/* Right Column - Sidebar Skeleton */}
+          
           <div className="space-y-6">
-            {/* Purchase card skeleton */}
+           
             <Card className="sticky top-6 shadow-lg">
               <div className="relative overflow-hidden rounded-t-lg h-48">
                 <Skeleton className="w-full h-full" />
