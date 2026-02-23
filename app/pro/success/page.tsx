@@ -1,5 +1,7 @@
-// app/pro-plan/success/simple/page.tsx
-"use client"
+'use client'
+
+export const dynamic = "force-dynamic";
+
 
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
@@ -43,14 +45,14 @@ const SimpleProPlanSuccessPage = () => {
             <br/>
         </div>
       <div className="max-w-md mx-auto">
-        {/* Icon */}
+       
         <div className="flex justify-center mb-8">
           <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center shadow-lg">
             <CheckCircle className="w-12 h-12 text-white" />
           </div>
         </div>
 
-        {/* Heading */}
+       
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
             Pro Plan Activated
@@ -63,7 +65,7 @@ const SimpleProPlanSuccessPage = () => {
           </p>
         </div>
 
-        {/* Benefits */}
+        
         <div className="bg-gray-50 rounded-xl p-6 mb-8">
           <h3 className="font-semibold text-gray-900 mb-4">
             What you get:
@@ -88,7 +90,7 @@ const SimpleProPlanSuccessPage = () => {
           )}
         </div>
 
-        {/* Actions */}
+       
         <div className="space-y-4">
           <Button asChild className="w-full h-12">
             <Link href="/courses" className="flex items-center justify-center">
@@ -112,7 +114,7 @@ const SimpleProPlanSuccessPage = () => {
           </div>
         </div>
 
-        {/* Footer */}
+      
         <div className="mt-8 pt-6 border-t border-gray-200 text-center">
           <p className="text-sm text-gray-500">
             Subscription renews {isYearly ? 'yearly' : 'monthly'}. Cancel anytime.
