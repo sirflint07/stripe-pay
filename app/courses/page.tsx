@@ -95,7 +95,7 @@ if (userId) {
   <CardFooter className="flex flex-col items-start space-y-2">
     <div className="flex items-center justify-between mb-2 w-full mx-auto pl-3">
       <span className="font-semibold">${course.price.toFixed(2)}</span>
-      <Link href={`courses/${course._id}`} className="text-sm font-medium text-primary hover:underline opacity-50 transition-opacity">
+      
        {
         hasAccess ? (
            <Badge className=" bg-green-100 text-green-700 border-green-200 hover:bg-green-200">
@@ -109,7 +109,7 @@ if (userId) {
 </Badge>
         )
        }
-      </Link>
+      
     </div>
     <div className="flex items-center space-x-2 justify-between w-full">
       <SignedOut>

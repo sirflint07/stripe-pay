@@ -8,6 +8,7 @@ import { Id } from '@/convex/_generated/dataModel'
 import { Loader2 } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
+import Link from 'next/link'
 
 const PurchaseButton = ({courseId}: {courseId: Id<"courses">}) => {
     const [isLoading, setIsLoading] = useState(false)
@@ -53,9 +54,13 @@ const PurchaseButton = ({courseId}: {courseId: Id<"courses">}) => {
     }
 
     if (!userAccess.hasAccess) {
-    return <Button variant={'secondary'} onClick={handlePurchase} disabled={isLoading} className='dark:bg-amber-500'>
-        Enroll Now
-    </Button>
+    return (
+      <Link href={`courses/${courseId}`} className='cursor-pointer'>
+        <Button variant={'secondary'} onClick={handlePurchase} disabled={isLoading} className='dark:bg-amber-500'>
+            Enroll Now
+        </Button>
+      </Link>
+    )
     }
 
     if (userAccess.hasAccess) {
