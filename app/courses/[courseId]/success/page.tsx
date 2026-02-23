@@ -91,7 +91,7 @@ function SuccessContent() {
 
         <div className="flex gap-4">
           <Button asChild variant="outline" className="flex-1 h-10">
-            <Link href="/dashboard" className='flex gap-2'>
+            <Link href="/" className='flex gap-2'>
               <span><Home className='size-6'/></span><span>Home</span>
             </Link>
           </Button>
