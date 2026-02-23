@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Toaster } from "@/components/ui/sonner";
 import Footer from "@/components/Footer";
+import { Providers } from "@/components/providers/NextThemeProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -22,6 +23,9 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "CourseKingdom",
   description: "A platform for premium courses and resources",
+  icons: {
+    icon: "/icons/favicon.png",
+  },
 };
 
 export default function RootLayout({
@@ -31,41 +35,45 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-white`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-white  text-gray-900`}
       >
+        <Providers attribute="class" defaultTheme="dark" enableSystem>
         <div className='absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem] opacity-40'>
 						<div className='absolute bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_800px_at_100%_200px,#C9EBFF,transparent)] opacity-75'></div>
 					</div>
         
-        <ConvexClientProvider>
-          <ToastContainer
-            position="top-right"
-            autoClose={3000}
-            hideProgressBar
-            newestOnTop
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-            style={{
-              width: "100%",
-              maxWidth: "400px",
-              margin: "0 auto",
-            }}
-          />
-          <div className="flex-1 flex flex-col">
-            <Navbar />
-            <main className="flex-1 pt-16">
-              {children}
-            </main>
-            <Footer />
-          </div>
-          <Toaster duration={1000} position="bottom-right"/>
-        </ConvexClientProvider>
+          <ConvexClientProvider>
+            <ToastContainer
+              position="top-right"
+              autoClose={3000}
+              hideProgressBar
+              newestOnTop
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+              style={{
+                width: "100%",
+                maxWidth: "400px",
+                margin: "0 auto",
+              }}
+            />
+            <div className="flex-1 flex flex-col">
+              <Navbar />
+              <main className="flex-1 pt-16">
+                {children}
+              </main>
+              <Footer />
+            </div>
+            <Toaster duration={1000} position="bottom-right"/>
+          </ConvexClientProvider>
+          </Providers>
       </body>
+      
     </html>
   )
 }

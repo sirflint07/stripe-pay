@@ -10,6 +10,25 @@ const config: Config = {
   theme: {
   	extend: {
   		colors: {
+			dark: {
+          bg: {
+            primary: '#0f172a',
+            secondary: '#1e293b',
+            tertiary: '#334155',
+          },
+          text: {
+            primary: '#f8fafc',
+            secondary: '#cbd5e1',
+            tertiary: '#94a3b8',
+          },
+          accent: {
+            purple: '#8b5cf6',
+            blue: '#3b82f6',
+            success: '#10b981',
+            warning: '#f59e0b',
+            error: '#ef4444',
+          },
+        },
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   SignedIn,
@@ -15,6 +15,9 @@ import {
   LogInIcon,
   LogOutIcon,
   Menu,
+  Monitor,
+  Moon,
+  Sun,
   X,
   Zap,
 } from "lucide-react";
@@ -22,32 +25,34 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { AnimatePresence, motion } from "framer-motion";
+import { useTheme } from "next-themes";
 
 const MobileNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [scrolled, setScrolled] = useState(false);
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
- 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
     };
+    setMounted(true);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-  
   useEffect(() => {
     if (isMenuOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     }
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     };
   }, [isMenuOpen]);
 
@@ -92,6 +97,10 @@ const MobileNavbar = () => {
       },
     }),
   };
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <>
@@ -148,14 +157,11 @@ const MobileNavbar = () => {
         </div>
       </div>
 
-     
       <div className="md:hidden h-16 w-full" />
 
-     
       <AnimatePresence>
         {isMenuOpen && (
           <>
-           
             <motion.div
               variants={backdropVariants}
               initial="closed"
@@ -172,7 +178,6 @@ const MobileNavbar = () => {
               exit="closed"
               className="fixed right-0 top-0 h-full w-[280px] sm:w-[320px] bg-white shadow-2xl z-50 md:hidden flex flex-col"
             >
-              
               <div className="bg-gradient-to-br from-gray-600 via-gray-800 to-gray-900 p-6 text-white">
                 <div className="flex items-center gap-3 mb-2">
                   <div className="p-2 bg-white/20 rounded-xl backdrop-blur-sm">
@@ -180,7 +185,9 @@ const MobileNavbar = () => {
                   </div>
                   <div>
                     <h3 className="font-bold text-lg">Menu</h3>
-                    <p className="text-xs text-white/80">Navigate CourseKingdom</p>
+                    <p className="text-xs text-white/80">
+                      Navigate CourseKingdom
+                    </p>
                   </div>
                 </div>
                 <button
@@ -191,9 +198,14 @@ const MobileNavbar = () => {
                 </button>
               </div>
 
-              <div className="flex-1 overflow-y-auto py-6 px-4">
+              <div className="flex-1 overflow-y-auto py-6 px-4 dark:bg-gray-900">
                 <div className="space-y-1">
-                  <motion.div custom={0} variants={linkVariants} initial="closed" animate="open">
+                  <motion.div
+                    custom={0}
+                    variants={linkVariants}
+                    initial="closed"
+                    animate="open"
+                  >
                     <Link
                       href="/"
                       onClick={toggleMenu}
@@ -202,11 +214,170 @@ const MobileNavbar = () => {
                       <div className="p-2 bg-blue-50 rounded-lg group-hover:bg-blue-100 transition-colors">
                         <HomeIcon size={18} className="text-blue-600" />
                       </div>
-                      <span className="font-medium text-gray-700">Home</span>
+                      <span className="font-medium text-gray-700 dark:text-slate-100">Home</span>
                     </Link>
                   </motion.div>
 
-                  <motion.div custom={1} variants={linkVariants} initial="closed" animate="open">
+                  <motion.div
+  custom={1}
+  variants={linkVariants}
+  initial="closed"
+  animate="open"
+  className="px-3"
+>
+  <div className="space-y-3">
+    {/* Header with decorative element */}
+    <div className="flex items-center gap-2 px-1">
+      <div className="h-4 w-1 bg-gradient-to-b from-amber-500 to-purple-600 rounded-full" />
+      <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+        Theme Preference
+      </p>
+    </div>
+
+    {/* Theme Options Grid */}
+    <div className="grid grid-cols-3 gap-2">
+      {/* Light Option */}
+      <button
+        onClick={() => setTheme("light")}
+        className={`group relative flex flex-col items-center gap-2 p-3 rounded-2xl transition-all duration-300 ${
+          theme === "light"
+            ? "bg-gradient-to-br from-amber-400 to-orange-500 shadow-lg shadow-amber-500/20 scale-105"
+            : "bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 hover:border-amber-300 dark:hover:border-amber-700"
+        }`}
+      >
+        {/* Selection indicator */}
+        {theme === "light" && (
+          <div className="absolute -top-1 -right-1 w-4 h-4 bg-white rounded-full border-2 border-amber-500">
+            <div className="w-2 h-2 bg-amber-500 rounded-full m-0.5" />
+          </div>
+        )}
+        
+        <div className={`p-2 rounded-xl transition-all ${
+          theme === "light"
+            ? "bg-white/20"
+            : "bg-amber-100 dark:bg-amber-900/30 group-hover:bg-amber-200 dark:group-hover:bg-amber-800/50"
+        }`}>
+          <Sun size={20} className={
+            theme === "light"
+              ? "text-white"
+              : "text-amber-600 dark:text-amber-400"
+          } />
+        </div>
+        
+        <span className={`text-xs font-medium ${
+          theme === "light"
+            ? "text-white"
+            : "text-gray-700 dark:text-gray-300"
+        }`}>
+          Light
+        </span>
+        
+        {/* Animated background effect on hover */}
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-amber-400/0 to-orange-500/0 group-hover:from-amber-400/5 group-hover:to-orange-500/5 transition-all duration-300" />
+      </button>
+
+      {/* Dark Option */}
+      <button
+        onClick={() => setTheme("dark")}
+        className={`group relative flex flex-col items-center gap-2 p-3 rounded-2xl transition-all duration-300 ${
+          theme === "dark"
+            ? "bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/20 scale-105"
+            : "bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-700"
+        }`}
+      >
+        {theme === "dark" && (
+          <div className="absolute -top-1 -right-1 w-4 h-4 bg-white rounded-full border-2 border-indigo-500">
+            <div className="w-2 h-2 bg-indigo-500 rounded-full m-0.5" />
+          </div>
+        )}
+        
+        <div className={`p-2 rounded-xl transition-all ${
+          theme === "dark"
+            ? "bg-white/20"
+            : "bg-indigo-100 dark:bg-indigo-900/30 group-hover:bg-indigo-200 dark:group-hover:bg-indigo-800/50"
+        }`}>
+          <Moon size={20} className={
+            theme === "dark"
+              ? "text-white"
+              : "text-indigo-600 dark:text-indigo-400"
+          } />
+        </div>
+        
+        <span className={`text-xs font-medium ${
+          theme === "dark"
+            ? "text-white"
+            : "text-gray-700 dark:text-gray-300"
+        }`}>
+          Dark
+        </span>
+        
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-indigo-400/0 to-purple-500/0 group-hover:from-indigo-400/5 group-hover:to-purple-500/5 transition-all duration-300" />
+      </button>
+
+      {/* System Option */}
+      <button
+        onClick={() => setTheme("system")}
+        className={`group relative flex flex-col items-center gap-2 p-3 rounded-2xl transition-all duration-300 ${
+          theme === "system"
+            ? "bg-gradient-to-br from-gray-700 to-gray-900 dark:from-gray-600 dark:to-gray-800 shadow-lg shadow-gray-500/20 scale-105"
+            : "bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-600"
+        }`}
+      >
+        {theme === "system" && (
+          <div className="absolute -top-1 -right-1 w-4 h-4 bg-white rounded-full border-2 border-gray-500">
+            <div className="w-2 h-2 bg-gray-500 rounded-full m-0.5" />
+          </div>
+        )}
+        
+        <div className={`p-2 rounded-xl transition-all ${
+          theme === "system"
+            ? "bg-white/20"
+            : "bg-gray-100 dark:bg-gray-700 group-hover:bg-gray-200 dark:group-hover:bg-gray-600"
+        }`}>
+          <Monitor size={20} className={
+            theme === "system"
+              ? "text-white"
+              : "text-gray-600 dark:text-gray-400"
+          } />
+        </div>
+        
+        <span className={`text-xs font-medium ${
+          theme === "system"
+            ? "text-white"
+            : "text-gray-700 dark:text-gray-300"
+        }`}>
+          System
+        </span>
+        
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-gray-400/0 to-gray-600/0 group-hover:from-gray-400/5 group-hover:to-gray-600/5 transition-all duration-300" />
+      </button>
+    </div>
+
+    {/* Current theme indicator */}
+    <div className="flex items-center justify-between px-1 pt-1">
+      <span className="text-[10px] text-gray-500 dark:text-gray-400">
+        Currently active
+      </span>
+      <div className="flex items-center gap-1.5">
+        <div className={`w-2 h-2 rounded-full ${
+          theme === "light" ? "bg-amber-500" : 
+          theme === "dark" ? "bg-indigo-500" : 
+          "bg-gray-500"
+        }`} />
+        <span className="text-[10px] font-medium text-gray-600 dark:text-gray-300 capitalize">
+          {theme === "system" ? "System" : theme}
+        </span>
+      </div>
+    </div>
+  </div>
+</motion.div>
+
+                  <motion.div
+                    custom={1}
+                    variants={linkVariants}
+                    initial="closed"
+                    animate="open"
+                  >
                     <Link
                       href="/courses"
                       onClick={toggleMenu}
@@ -215,11 +386,18 @@ const MobileNavbar = () => {
                       <div className="p-2 bg-green-50 rounded-lg group-hover:bg-green-100 transition-colors">
                         <BookOpenIcon size={18} className="text-green-600" />
                       </div>
-                      <span className="font-medium text-gray-700">All Courses</span>
+                      <span className="font-medium text-gray-700 dark:text-slate-100">
+                        All Courses
+                      </span>
                     </Link>
                   </motion.div>
 
-                  <motion.div custom={2} variants={linkVariants} initial="closed" animate="open">
+                  <motion.div
+                    custom={2}
+                    variants={linkVariants}
+                    initial="closed"
+                    animate="open"
+                  >
                     <Link
                       href="/pro"
                       onClick={toggleMenu}
@@ -228,14 +406,21 @@ const MobileNavbar = () => {
                       <div className="p-2 bg-purple-50 rounded-lg group-hover:bg-purple-100 transition-colors">
                         <Zap size={18} className="text-purple-600" />
                       </div>
-                      <span className="font-medium text-gray-700">Pro Plan</span>
+                      <span className="font-medium text-gray-700 dark:text-slate-100">
+                        Pro Plan
+                      </span>
                       <span className="ml-auto text-xs bg-gradient-to-r from-purple-600 to-pink-600 text-white px-2 py-1 rounded-full">
                         Premium
                       </span>
                     </Link>
                   </motion.div>
 
-                  <motion.div custom={3} variants={linkVariants} initial="closed" animate="open">
+                  <motion.div
+                    custom={3}
+                    variants={linkVariants}
+                    initial="closed"
+                    animate="open"
+                  >
                     <Link
                       href="/billing"
                       onClick={toggleMenu}
@@ -244,19 +429,23 @@ const MobileNavbar = () => {
                       <div className="p-2 bg-amber-50 rounded-lg group-hover:bg-amber-100 transition-colors">
                         <CreditCardIcon size={18} className="text-amber-600" />
                       </div>
-                      <span className="font-medium text-gray-700">Billing</span>
+                      <span className="font-medium text-gray-700 dark:text-slate-100">Billing</span>
                     </Link>
                   </motion.div>
                 </div>
 
-                
                 <div className="my-6 border-t border-gray-100" />
 
-                <motion.div custom={4} variants={linkVariants} initial="closed" animate="open">
+                <motion.div
+                  custom={4}
+                  variants={linkVariants}
+                  initial="closed"
+                  animate="open"
+                >
                   <SignedOut>
                     <div className="space-y-3">
                       <SignInButton mode="modal">
-                        <Button 
+                        <Button
                           className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
                           onClick={toggleMenu}
                         >
@@ -266,7 +455,11 @@ const MobileNavbar = () => {
                       </SignInButton>
                       <p className="text-xs text-center text-gray-500">
                         New to CourseKingdom?{" "}
-                        <Link href="/sign-up" className="text-blue-600 hover:underline" onClick={toggleMenu}>
+                        <Link
+                          href="/sign-up"
+                          className="text-blue-600 hover:underline"
+                          onClick={toggleMenu}
+                        >
                           Create account
                         </Link>
                       </p>
@@ -278,13 +471,17 @@ const MobileNavbar = () => {
                       <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
                         <UserButton afterSignOutUrl="/" />
                         <div className="flex-1">
-                          <p className="text-sm font-medium text-gray-700">Your Account</p>
-                          <p className="text-xs text-gray-500">Manage your profile</p>
+                          <p className="text-sm font-medium text-gray-700">
+                            Your Account
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            Manage your profile
+                          </p>
                         </div>
                       </div>
                       <SignOutButton>
-                        <Button 
-                          variant="outline" 
+                        <Button
+                          variant="outline"
                           className="w-full border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700"
                           onClick={toggleMenu}
                         >
@@ -296,7 +493,7 @@ const MobileNavbar = () => {
                   </SignedIn>
                 </motion.div>
               </div>
-              
+
               <div className="p-4 border-t border-gray-100 bg-gray-50/50">
                 <p className="text-xs text-center text-gray-500">
                   © {new Date().getFullYear()} CourseKingdom

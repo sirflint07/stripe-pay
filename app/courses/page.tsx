@@ -61,7 +61,7 @@ if (userId) {
     <main className='w-[95vw] lg:w-4/5 mx-auto py-12 overflow-hidden'>
       <div className='flex justify-between items-center mb-8'>
         <h1 className='text-2xl font-bold mb-4 text-gray-600'>All Courses</h1>
-        <Link href="/" className="flex items-center gap-2 mb-6 text-muted-foreground hover:text-primary transition-colors">
+        <Link href="/" className="flex items-center gap-2 mb-6 text-muted-foreground hover:text-primary transition-colors dark:text-gray-700 dark:hover:text-dark">
           <ArrowLeftCircle className="w-6 h-6" />
           Back to Home
         </Link>
@@ -127,7 +127,7 @@ if (userId) {
       </div>
       <div className='flex justify-end py-6'>
         <Button variant="outline" className="mx-4">
-        <Link href="#" className='flex items-center gap-1'><span className='inline-block text-sm'>Back to top</span> <span className='inline-block'><PiHandPointing size={14} /></span></Link>
+        <Link href="#" className='flex items-center gap-1'><span className='inline-block text-sm dark:text-slate-300'>Back to top</span> <span className='inline-block dark:text-slate-300'><PiHandPointing size={14} /></span></Link>
       </Button>
       </div>
       

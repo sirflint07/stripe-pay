@@ -88,7 +88,7 @@ const Footer = () => {
   }
 
   return (
-    <footer className="bg-gray-900 text-gray-300 mt-auto">
+    <footer className="bg-gray-900 text-gray-300">
       <div className="container w-[88vw] md:w-[90vw] mx-auto px-4 py-8 lg:py-10">
         <motion.div 
           initial="hidden"
