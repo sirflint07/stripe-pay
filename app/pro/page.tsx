@@ -109,8 +109,8 @@ const ProPlanPage = () => {
 							</CardTitle>
 
 							<CardDescription className='mt-2'>
-								<span className='text-3xl font-bold text-gray-900'>{plan.price}</span>
-								<span className='text-gray-600 ml-1'>{plan.period}</span>
+								<span className='text-3xl font-bold text-gray-900 dark:text-white/80'>{plan.price}</span>
+								<span className='text-gray-600 ml-1 dark:text-gray-300'>{plan.period}</span>
 							</CardDescription>
 						</CardHeader>
 
@@ -121,7 +121,7 @@ const ProPlanPage = () => {
 										<Check
 											className={`h-5 w-5 ${plan.highlighted ? "text-purple-500" : "text-green-500"} mr-2 flex-shrink-0`}
 										/>
-										<span className='text-gray-700'>{feature}</span>
+										<span className='text-gray-700 dark:text-slate-100'>{feature}</span>
 									</li>
 								))}
 							</ul>
