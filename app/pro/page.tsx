@@ -104,7 +104,7 @@ const ProPlanPage = () => {
                     </div>
                   )}
 						<CardHeader className='flex-grow'>
-							<CardTitle className={`text-2xl ${plan.highlighted ? "text-purple-600" : "text-gray-800"}`}>
+							<CardTitle className={`text-2xl ${plan.highlighted ? "text-purple-600" : "text-gray-800 dark:text-amber-500"}`}>
 								{plan.title}
 							</CardTitle>
 

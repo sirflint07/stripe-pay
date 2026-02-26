@@ -136,10 +136,10 @@ const BillingPage = () => {
               <CardHeader className="pb-0 pt-6">
                 <div className="flex items-start justify-between">
                   <div>
-                    <CardTitle className="text-2xl font-bold text-gray-900">
+                    <CardTitle className="text-2xl font-bold text-gray-900 dark:text-yellow-500">
                       {subscription.planType === 'year' ? 'Yearly Plan' : 'Monthly Plan'}
                     </CardTitle>
-                    <CardDescription className="text-gray-600 mt-1.5">
+                    <CardDescription className="text-gray-600  dark:text-white/80 mt-1.5">
                       {subscription.planType === 'year' 
                         ? 'Billed annually. Save 17% compared to monthly.'
                         : 'Billed monthly. Cancel anytime.'
@@ -233,7 +233,7 @@ const BillingPage = () => {
                 <div className="flex flex-col sm:flex-row gap-3 w-full justify-end">
                   <Button
                     variant="outline"
-                    className="border-gray-300 hover:bg-white hover:border-gray-400"
+                    className="border-gray-300 hover:bg-white hover:border-gray-400 dark:border-gray-700 dark:hover:bg-gray-700 dark:hover:border-gray-600 text-gray-700 dark:text-gray-300"
                     asChild
                   >
                     <Link href="/pro">
