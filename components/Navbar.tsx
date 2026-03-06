@@ -58,7 +58,7 @@ const Navbar = () => {
               >
                 <Zap
                   size={18}
-                  className="group-hover:text-purple-600 transition-colors"
+                  className="group-hover:text-purple-600 transition-colors dark:text-gray-300"
                 />
                 <span className="text-sm font-medium dark:text-gray-100">
                   Pro
@@ -71,7 +71,7 @@ const Navbar = () => {
               >
                 <CreditCardIcon
                   size={18}
-                  className="group-hover:text-amber-600 transition-colors"
+                  className="group-hover:text-amber-600 transition-colors dark:text-gray-300"
                 />
                 <span className="text-sm font-medium dark:text-gray-100">
                   Billing
@@ -84,7 +84,7 @@ const Navbar = () => {
               >
                 <BookOpenIcon
                   size={18}
-                  className="group-hover:text-green-600 transition-colors"
+                  className="group-hover:text-green-600 transition-colors dark:text-gray-300"
                 />
                 <span className="text-sm font-medium dark:text-gray-100">
                   Courses
@@ -105,7 +105,7 @@ const Navbar = () => {
                     }`}
                   />
                   <Moon
-                    className={`absolute inset-0 w-5 h-5 text-indigo-600 dark:text-indigo-400 transition-all duration-300 ${
+                    className={`absolute inset-0 w-5 h-5 text-indigo-600 dark:text-indigo-700 transition-all duration-300 ${
                       theme === "dark"
                         ? "opacity-100 rotate-0 scale-100"
                         : "opacity-0 -rotate-90 scale-0"
@@ -121,7 +121,7 @@ const Navbar = () => {
 
                 <SignedOut>
                   <SignInButton mode="modal">
-                    <Button variant="outline" size="sm" className="gap-2">
+                    <Button variant="outline" size="sm" className="gap-2 dark:text-gray-100">
                       <LogInIcon size={14} />
                       Log In
                     </Button>
