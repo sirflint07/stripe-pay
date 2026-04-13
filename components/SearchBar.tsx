@@ -68,7 +68,13 @@ export default function SearchBar() {
         )}
       </div>
 
-      
+      {
+        isSearching && !searchResults && (
+          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+            <Loader2 className="h-5 w-5 animate-spin" />
+          </div>
+        )
+      }
       {showResults && searchResults && (
         <div className="absolute z-50 mt-2 w-full bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 max-h-96 overflow-y-auto">
           <div className="p-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
