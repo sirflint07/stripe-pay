@@ -17,8 +17,10 @@ export default defineSchema({
         title: v.string(),
         description: v.string(),
         imageUrl: v.string(),
-        price: v.number()
-    }),
+        price: v.number(),
+        category: v.optional(v.string())
+    }).index('by_category', ["category"])
+    .index('by_title', ["title"]),
 
     purchases: defineTable({
         userId: v.id('users'),

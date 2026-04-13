@@ -1,4 +1,6 @@
+import FilterMenu from '@/components/FilterMenu'
 import PurchaseButton from '@/components/PurchaseButton'
+import SearchBar from '@/components/SearchBar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
@@ -60,11 +62,21 @@ if (userId) {
   return (
     <main className='w-[95vw] lg:w-4/5 mx-auto py-12 overflow-hidden'>
       <div className='flex justify-between items-center mb-8'>
-        <h1 className='text-2xl font-bold mb-4 text-gray-600'>All Courses</h1>
+        <h1 className='text-2xl font-bold mb-4 text-gray-600 flex items-center'><span>All Courses</span><span className='text-lg font-semibold text-emerald-600'>{courses.length}</span></h1>
         <Link href="/" className="flex items-center gap-2 mb-6 text-muted-foreground hover:text-primary transition-colors dark:text-gray-700 dark:hover:text-dark">
           <ArrowLeftCircle className="w-6 h-6" />
           Back to Home
         </Link>
+        </div>
+
+        <div className="mb-16 flex items-center justify-between max-w-6xl gap-8">
+          <div className='w-full md:max-w-3xl'>
+            <SearchBar />
+          </div>
+
+          <div className='w-full md:max-w-3xl'>
+            <FilterMenu />
+          </div>
         </div>
     
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mx-auto">
