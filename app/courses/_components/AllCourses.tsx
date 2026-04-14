@@ -84,11 +84,11 @@ export default function AllCoursesClient({
   return (
     <main className='w-[95vw] lg:w-4/5 mx-auto py-12 overflow-hidden'>
       <div className='flex justify-between items-center mb-8'>
-        <h1 className='text-2xl font-bold mb-4 text-gray-600 flex items-baseline gap-2'>
+        <h1 className='text-lg md:text-2xl font-bold mb-4 text-gray-600 flex items-baseline gap-2'>
           <span>All Courses</span>
           <span className='text-lg font-semibold text-emerald-600 bg-slate-200 rounded-lg py-2 px-4'>{filteredAndSortedCourses.length}</span>
         </h1>
-        <Link href="/" className="flex items-center gap-2 mb-6 text-muted-foreground hover:text-primary transition-colors">
+        <Link href="/" className="text-sm md:text-lg flex items-center gap-2 mb-6 text-muted-foreground hover:text-primary transition-colors">
           <ArrowLeftCircle className="w-6 h-6" />
           Back to Home
         </Link>
