@@ -178,9 +178,9 @@ const MobileNavbar = () => {
               exit="closed"
               className="fixed right-0 top-0 h-full w-[280px] sm:w-[320px] bg-white shadow-2xl z-50 md:hidden flex flex-col"
             >
-              <div className="bg-gradient-to-br from-blue-500 to-purple-600 dark:bg-gradient-to-br dark:from-blue-500 dark:to-purple-600 p-6 text-white">
+              <div className="bg-gradient-to-br from-gray-600 via-gray-800 to-gray-900 dark:bg-gradient-to-br dark:from-blue-500 dark:to-purple-600 p-6 text-white">
                 <div className="flex items-center gap-3 mb-2">
-                  <div className="p-2 bg-white/20 rounded-xl backdrop-blur-sm">
+                  <div className="p-2 bg-white/20 rounded-xl backdrop-blur-sm bg-gradient-to-br from-blue-500 to-purple-600">
                     <GraduationCap size={24} className="text-white" />
                   </div>
                   <div>
