@@ -13,7 +13,7 @@ export default async function AllCourses() {
   let subscription = null;
   let hasProAccess = false;
   let accessMap: Record<string, boolean> = {};
-  let categories = ['all', 'design', 'web development'];
+  const categories = ['all', 'design', 'web development'];
 
   if (userId) {
     userData = await fetchQuery(api.users.getUserByClerkId, { clerkId: userId });
