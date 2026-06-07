@@ -21,8 +21,8 @@ export default function FilterMenu({
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   
-  
-  useEffect(() => {
+
+useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setIsOpen(false);
@@ -31,7 +31,7 @@ export default function FilterMenu({
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-  
+
   const sortOptions = [
     { value: "name-asc", label: "Name (A → Z)" },
     { value: "name-desc", label: "Name (Z → A)" },

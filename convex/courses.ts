@@ -35,8 +35,6 @@ export const searchCourses = query({
 
     const term = searchTerm.toLowerCase().trim();
     
-    
-    
     const filteredCourses = allCourses.filter((course) => {
       return (
         course.title.toLowerCase().includes(term) ||
